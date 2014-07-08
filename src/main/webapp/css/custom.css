@@ -1,0 +1,33 @@
+body {
+    padding-top: 20px;
+}
+
+.container {
+    max-width: 950px;
+}
+
+.date {
+    padding-top: 25px;
+    text-align: right;
+}
+
+#article-block {
+    border: solid #f5f5f5;
+    border-radius: 5px;
+    padding: 10px;
+    margin-bottom: 15px;
+    margin-right: 0;
+}
+
+.news-footer {
+    padding-top: 15px;
+    text-align: center;
+}
+
+.from-top {
+    margin-top: 20px;
+}
+
+.right-position {
+    text-align: right;
+}
