@@ -1,5 +1,9 @@
 # News management change log
 
+## 0.2.0-alpha
+- Solved problem with localization
+- Added custom pool configuration
+
 ## 0.1.1-alpha
 - Changed `answers.md`
 

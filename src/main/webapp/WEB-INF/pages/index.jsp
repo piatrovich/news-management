@@ -8,7 +8,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>
-        <spring:message code="title.index"/>
+        Title
     </title>
     <!-- Styles -->
     <link href="<spring:url value="/css/bootstrap.min.css"/>" rel="stylesheet">
@@ -20,14 +20,7 @@
     <div class="navbar navbar-default">
         <div class="container-fluid">
             <div class="navbar-collapse collapse">
-                <ul class="nav navbar-nav navbar-right">
-                    <li>
-                        <a href="<c:url value="?lang=en"/>">EN</a>
-                    </li>
-                    <li>
-                        <a href="?lang=ru">RU</a>
-                    </li>
-                </ul>
+                <c:import url="common/lang.jsp"/>
             </div>
         </div>
     </div>
@@ -60,21 +53,21 @@
                                 <div class="col-md-4">
                                     <p>
                                         <a href="view/<c:out value="${article.id}"/>">
-                                            <spring:message code="action.view"/>
+                                            <spring:message code="action.view" text="N/A"/>
                                         </a>
                                     </p>
                                 </div>
                                 <div class="col-md-4">
                                     <p>
                                         <a href="edit/<c:out value="${article.id}"/>">
-                                            <spring:message code="action.edit"/>
+                                            <spring:message code="action.edit" text="N/A"/>
                                         </a>
                                     </p>
                                 </div>
                                 <div class="col-md-4">
                                     <p>
                                         <a href="delete/<c:out value="${article.id}"/>">
-                                            <spring:message code="action.delete"/>
+                                            <spring:message code="action.delete" text="N/A"/>
                                         </a>
                                     </p>
                                 </div>

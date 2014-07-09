@@ -24,14 +24,7 @@
                 <ul class="nav navbar-nav">
                     <li><a href="">Back</a></li>
                 </ul>
-                <ul class="nav navbar-nav navbar-right">
-                    <li>
-                        <a href="<c:url value="?lang=en_EN"/>">en</a>
-                    </li>
-                    <li>
-                        <a href="?lang=ru_RU">ru</a>
-                    </li>
-                </ul>
+                <c:import url="common/lang.jsp"/>
             </div>
         </div>
     </div>

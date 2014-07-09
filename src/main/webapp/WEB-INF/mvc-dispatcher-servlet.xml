@@ -12,32 +12,51 @@
         http://www.springframework.org/schema/data/mongo
         http://www.springframework.org/schema/data/mongo/spring-mongo.xsd">
 
-    <!-- Needs for use MVC annotations -->
-    <mvc:annotation-driven/>
+    <!-- Needs for use MVC annotations
+    <mvc:annotation-driven/>  -->
 
-    <!-- Needs for @Service, @Repository and etc.       -->
+    <!-- Needs for @Service, @Repository and etc.  -->
     <context:annotation-config/>
 
-    <!-- Sets location for static css files  -->
+    <!-- Sets location for static css files
     <mvc:resources mapping="/css/**" location="/css/"/>
 
-    <context:component-scan base-package="com.epam.lab.news"/>
+    <context:component-scan base-package="com.epam.lab.news"/>    -->
 
-    <!-- Needs for identify views -->
+    <!-- Needs for identify views
     <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
         <property name="prefix" value="/WEB-INF/pages/"/>
         <property name="suffix" value=".jsp"/>
-    </bean>
+    </bean>                       -->
+
+    <!--
+    <mongo:mongo host="localhost" port="27017">
+        <mongo:options connections-per-host="16"
+                       threads-allowed-to-block-for-connection-multiplier="4"
+                       connect-timeout="100"
+                       max-wait-time="500"
+                       auto-connect-retry="true"
+                       socket-keep-alive="true"
+                       socket-timeout="500"
+                       slave-ok="true"
+                       write-number="1"
+                       write-timeout="0"
+                       write-fsync="true" />
+    </mongo:mongo>
+
+    <mongo:db-factory id="mongoDbFactory"
+                      host="localhost"
+                      port="27017"
+                      dbname="news" />
 
     <bean id="mongoTemplate" class="org.springframework.data.mongodb.core.MongoTemplate">
         <constructor-arg name="mongoDbFactory" ref="mongoDbFactory"/>
     </bean>
 
-    <!--
-    <mongo:mongo id="mongoConnection" host="localhost" port="27017" write-concern="1"/>       -->
+    <mongo:mongo id="mongoConnection" host="localhost" port="27017" write-concern="1" />      -->
 
-    <!-- Need for working with NewsRepository by autowiring -->
-    <mongo:repositories base-package="com.epam.lab.news.data.repo"/>
+    <!-- Need for working with NewsRepository by autowiring
+    <mongo:repositories base-package="com.epam.lab.news.data.repo"/>   -->
 
     <!--
     <bean id="sessionLocaleResolver"
