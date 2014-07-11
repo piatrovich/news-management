@@ -15,6 +15,8 @@
     <link href="<spring:url value="/css/custom.css"/>" rel="stylesheet">
 </head>
 <body>
+<script src="<spring:url value="/js/jquery-2.1.1.js"/>"></script>
+<script src="<spring:url value="/js/scripts.js"/>"></script>
 <div class="container">
     <!-- Static navbar -->
     <div class="navbar navbar-default">

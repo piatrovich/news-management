@@ -24,6 +24,7 @@ public class WebAppConfig extends WebMvcConfigurerAdapter {
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
         registry.addResourceHandler("/css/**").addResourceLocations("/css/").setCachePeriod(3600);
+        registry.addResourceHandler("/js/**").addResourceLocations("/js/").setCachePeriod(3600);
     }
 
     @Bean

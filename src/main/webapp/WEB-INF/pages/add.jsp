@@ -78,8 +78,8 @@
                     </div>
                     <div class="col-md-9 col-md-offset-3 right-position">
                         <input type="submit" class="btn btn-default" value="Save">
-                        <input type="button" class="btn btn-default"
-                               onclick="location='/${pageContext.request.contextPath}'" value="Cancel">
+                        <input id="delBtn" type="button" class="btn btn-default"
+                                value="Cancel">
                     </div>
                 </form:form>
             </div>
@@ -88,6 +88,20 @@
     </div>
     <c:import url="common/footer.jsp"/>
 </div>
+<c:import url="confirmation/deletion.jsp"/>
+<script src="<spring:url value="/js/jquery-2.1.1.js"/>"></script>
+<script type="javascript">
+    $(function() {
+        $("#deleteDialog").dialog({
+            autoOpen:false
+        });
 
+        $("#delBtn").dialog("widget").find(".ui-dialog-titlebar-close").hide();
+
+        $("delBtn").click(function(){
+            $("#deleteDialog").dialog("open");
+        });
+    });
+</script>
 </body>
 </html>
