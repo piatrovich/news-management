@@ -50,24 +50,24 @@
                         <div class="col-md-12">
                             <p>${article.description}</p>
                         </div>
-                        <div class="col-md-4 col-md-offset-8">
+                        <div class="col-md-5 col-md-offset-7">
                             <div class="row">
                                 <div class="col-md-4">
-                                    <p>
+                                    <p class="right-position">
                                         <a href="view/<c:out value="${article.id}"/>">
                                             <spring:message code="action.view"/>
                                         </a>
                                     </p>
                                 </div>
                                 <div class="col-md-4">
-                                    <p>
+                                    <p class="right-position">
                                         <a href="edit/<c:out value="${article.id}"/>">
                                             <spring:message code="action.edit"/>
                                         </a>
                                     </p>
                                 </div>
                                 <div class="col-md-4">
-                                    <p>
+                                    <p class="right-position">
                                         <a href="delete/<c:out value="${article.id}"/>">
                                             <spring:message code="action.delete"/>
                                         </a>
