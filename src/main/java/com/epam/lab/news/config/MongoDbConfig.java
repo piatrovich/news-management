@@ -4,8 +4,12 @@ import com.mongodb.Mongo;
 import com.mongodb.MongoClient;
 import com.mongodb.MongoClientOptions;
 import com.mongodb.ServerAddress;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.PropertySource;
+import org.springframework.context.annotation.PropertySources;
+import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
 import org.springframework.data.mongodb.MongoDbFactory;
 import org.springframework.data.mongodb.config.AbstractMongoConfiguration;
 import org.springframework.data.mongodb.core.MongoTemplate;
@@ -20,15 +24,28 @@ import org.springframework.data.mongodb.repository.config.EnableMongoRepositorie
  */
 @Configuration
 @EnableMongoRepositories(basePackages = "com.epam.lab.news.data.repo")
+@PropertySource("classpath:pool/mongo.properties")
 public class MongoDbConfig extends AbstractMongoConfiguration {
-    /** Keeps database name */
-    private static final String DATABASE = "news";
 
-    /** Keeps host */
-    private static final String HOST = "localhost";
+    @Bean
+    public static PropertySourcesPlaceholderConfigurer propertySourcesPlaceholderConfigurer() {
+        return new PropertySourcesPlaceholderConfigurer();
+    }
 
-    /** Keeps post for access */
-    private static final int PORT = 27017;
+    /** Keeps mongo database name */
+    private @Value("${mongo.database}") String database;
+
+    /** Keeps mongo host */
+    private @Value("${mongo.host}") String host;
+
+    /** Keeps mongo post for access */
+    private @Value("${mongo.port}") Integer port;
+    private @Value("${mongo.connections.per.host}") Integer connectionsPerHost;
+    private @Value("${mongo.threads.multiplier}") Integer threadsMultiplier;
+    private @Value("${mongo.connect.timeout}") Integer connectTimeout;
+    private @Value("${mongo.max.wait.time}") Integer maxWaitTime;
+    private @Value("${mongo.socket.keep.alive}") Boolean socketKeepAlive;
+    private @Value("${mongo.socket.timeout}") Integer socketTimeout;
 
     /**
      * Returns database name.
@@ -38,7 +55,7 @@ public class MongoDbConfig extends AbstractMongoConfiguration {
      */
     @Override
     protected String getDatabaseName() {
-        return DATABASE;
+        return database;
     }
 
     @Bean
@@ -48,7 +65,7 @@ public class MongoDbConfig extends AbstractMongoConfiguration {
 
     @Bean
     public MongoDbFactory mongoDbFactory() throws Exception {
-        return new SimpleMongoDbFactory(mongo(), DATABASE);
+        return new SimpleMongoDbFactory(mongo(), database);
     }
 
     /**
@@ -60,14 +77,14 @@ public class MongoDbConfig extends AbstractMongoConfiguration {
     @Override
     public Mongo mongo() throws Exception {
         MongoClientOptions options = MongoClientOptions.builder()
-                .connectionsPerHost(8)
-                .threadsAllowedToBlockForConnectionMultiplier(4)
-                .connectTimeout(100)
-                .maxWaitTime(500)
-                .socketKeepAlive(true)
-                .socketTimeout(500)
+                .connectionsPerHost(connectionsPerHost)
+                .threadsAllowedToBlockForConnectionMultiplier(threadsMultiplier)
+                .connectTimeout(connectTimeout)
+                .maxWaitTime(maxWaitTime)
+                .socketKeepAlive(socketKeepAlive)
+                .socketTimeout(socketTimeout)
                 .build();
-        return new MongoClient(new ServerAddress(HOST, PORT), options);
+        return new MongoClient(new ServerAddress(host, port), options);
     }
 
 }
