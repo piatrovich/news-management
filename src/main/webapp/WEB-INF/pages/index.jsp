@@ -8,15 +8,13 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>
-        Title
+        <spring:message code="title.index"/>
     </title>
     <!-- Styles -->
     <link href="<spring:url value="/css/bootstrap.min.css"/>" rel="stylesheet">
     <link href="<spring:url value="/css/custom.css"/>" rel="stylesheet">
 </head>
 <body>
-<script src="<spring:url value="/js/jquery-2.1.1.js"/>"></script>
-<script src="<spring:url value="/js/scripts.js"/>"></script>
 <div class="container">
     <!-- Static navbar -->
     <div class="navbar navbar-default">
@@ -32,7 +30,9 @@
         <!-- Sidebar-->
         <div class="col-md-3" id="sidebar">
             <div class="list-group">
-                <a href="add" class="list-group-item">Add news</a>
+                <a href="add" class="list-group-item">
+                    <spring:message code="menu.add.news"/>
+                </a>
             </div>
         </div>
         <!-- end Sidebar -->
@@ -55,21 +55,21 @@
                                 <div class="col-md-4">
                                     <p>
                                         <a href="view/<c:out value="${article.id}"/>">
-                                            <spring:message code="action.view" text="N/A"/>
+                                            <spring:message code="action.view"/>
                                         </a>
                                     </p>
                                 </div>
                                 <div class="col-md-4">
                                     <p>
                                         <a href="edit/<c:out value="${article.id}"/>">
-                                            <spring:message code="action.edit" text="N/A"/>
+                                            <spring:message code="action.edit"/>
                                         </a>
                                     </p>
                                 </div>
                                 <div class="col-md-4">
                                     <p>
                                         <a href="delete/<c:out value="${article.id}"/>">
-                                            <spring:message code="action.delete" text="N/A"/>
+                                            <spring:message code="action.delete"/>
                                         </a>
                                     </p>
                                 </div>
@@ -82,6 +82,7 @@
     </div>
     <c:import url="common/footer.jsp"/>
 </div>
-
+<script src="<spring:url value="/js/jquery-2.1.1.js"/>"></script>
+<script src="<spring:url value="/js/scripts.js"/>"></script>
 </body>
 </html>

@@ -3,7 +3,7 @@
 <div class="navbar navbar-default">
     <div class="container-fluid">
         <div class="news-footer">
-            <p>News Management &#64 2014</p>
+            <p><spring:message code="footer.name"/> &#64 2014</p>
         </div>
     </div>
 </div>

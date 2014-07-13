@@ -9,7 +9,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>
-        Title
+        <spring:message code="title.edit"/>
     </title>
     <!-- Styles -->
     <link href="<spring:url value="/css/bootstrap.min.css"/>" rel="stylesheet">
@@ -22,7 +22,11 @@
         <div class="container-fluid">
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
-                    <li><a href="">Back</a></li>
+                    <li>
+                        <a onclick="window.history.back()" href="javascript:void(0)">
+                            <spring:message code="menu.back"/>
+                        </a>
+                    </li>
                 </ul>
                 <c:import url="common/lang.jsp"/>
             </div>
@@ -34,8 +38,12 @@
         <!-- Sidebar-->
         <div class="col-md-3" id="sidebar">
             <div class="list-group">
-                <a href="${pageContext.request.contextPath}" class="list-group-item">List news</a>
-                <a href="${pageContext.request.contextPath}/delete/${article.id}" class="list-group-item">Delete news</a>
+                <a href="${pageContext.request.contextPath}" class="list-group-item">
+                    <spring:message code="menu.list.news"/>
+                </a>
+                <a href="${pageContext.request.contextPath}/delete/${article.id}" class="list-group-item">
+                    <spring:message code="menu.delete.news"/>
+                </a>
             </div>
         </div>
         <!-- end Sidebar -->
@@ -45,7 +53,9 @@
             <div id="article-block" class="row">
                 <form:form method="post" commandName="proposedArticle">
                     <div class="form-group">
-                        <label for="inputTitle" class="col-md-3 control-label">Title</label>
+                        <label for="inputTitle" class="col-md-3 control-label">
+                            <spring:message code="page.body.title"/>
+                        </label>
                         <div class="col-md-9">
                             <input type="text" class="form-control" id="inputTitle" value="${article.title}">
                         </div>
@@ -56,7 +66,9 @@
                         </label>
                     </div>
                     <div class="form-group">
-                        <label for="inputShort" class="col-md-3 control-label">Short description</label>
+                        <label for="inputShort" class="col-md-3 control-label">
+                            <spring:message code="page.body.description.short"/>
+                        </label>
                         <div class="col-md-9">
                             <textarea class="form-control" rows="4" id="inputShort">${article.description}</textarea>
                         </div>
@@ -67,7 +79,9 @@
                         </label>
                     </div>
                     <div class="form-group">
-                        <label for="inputLong" class="col-md-3 control-label">Long description</label>
+                        <label for="inputLong" class="col-md-3 control-label">
+                            <spring:message code="page.body.description.long"/>
+                        </label>
                         <div class="col-md-9">
                             <textarea class="form-control" rows="10" id="inputLong">${article.text}</textarea>
                         </div>
@@ -78,9 +92,11 @@
                         </label>
                     </div>
                     <div class="col-md-9 col-md-offset-3 right-position">
-                        <input type="submit" class="btn btn-default" value="Save">
+                        <input type="submit" class="btn btn-default"
+                               value="<spring:message code="page.body.button.save"/>">
                         <input type="button" class="btn btn-default"
-                               onclick="window.location.href='/${pageContext.request.contextPath}'" value="Cancel">
+                               onclick="window.location.href='/${pageContext.request.contextPath}'"
+                               value="<spring:message code="page.body.button.cancel"/>">
                     </div>
                 </form:form>
             </div>
