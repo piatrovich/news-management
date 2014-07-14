@@ -27,18 +27,8 @@ import org.springframework.data.mongodb.repository.config.EnableMongoRepositorie
 @PropertySource("classpath:pool/mongo.properties")
 public class MongoDbConfig extends AbstractMongoConfiguration {
 
-    @Bean
-    public static PropertySourcesPlaceholderConfigurer propertySourcesPlaceholderConfigurer() {
-        return new PropertySourcesPlaceholderConfigurer();
-    }
-
-    /** Keeps mongo database name */
     private @Value("${mongo.database}") String database;
-
-    /** Keeps mongo host */
     private @Value("${mongo.host}") String host;
-
-    /** Keeps mongo post for access */
     private @Value("${mongo.port}") Integer port;
     private @Value("${mongo.connections.per.host}") Integer connectionsPerHost;
     private @Value("${mongo.threads.multiplier}") Integer threadsMultiplier;
@@ -46,6 +36,16 @@ public class MongoDbConfig extends AbstractMongoConfiguration {
     private @Value("${mongo.max.wait.time}") Integer maxWaitTime;
     private @Value("${mongo.socket.keep.alive}") Boolean socketKeepAlive;
     private @Value("${mongo.socket.timeout}") Integer socketTimeout;
+
+    /**
+     * This configurer needs for loading data from properties.
+     *
+     * @return PropertySourcesPlaceholderConfigurer object
+     */
+    @Bean
+    public static PropertySourcesPlaceholderConfigurer propertySourcesPlaceholderConfigurer() {
+        return new PropertySourcesPlaceholderConfigurer();
+    }
 
     /**
      * Returns database name.
@@ -58,21 +58,33 @@ public class MongoDbConfig extends AbstractMongoConfiguration {
         return database;
     }
 
+    /**
+     * This method return main object for Spring Data layer.
+     *
+     * @return MongoTemplate object
+     * @throws Exception if building object failed
+     */
     @Bean
     public MongoTemplate mongoTemplate() throws Exception {
         return new MongoTemplate(mongoDbFactory());
     }
 
+    /**
+     * Return factory for creating database instance from Mongo object.
+     *
+     * @return SimpleMongoDbFactory object
+     * @throws Exception
+     */
     @Bean
     public MongoDbFactory mongoDbFactory() throws Exception {
-        return new SimpleMongoDbFactory(mongo(), database);
+        return new SimpleMongoDbFactory(mongo(), getDatabaseName());
     }
 
     /**
      * Returns Mongo object initialized by custom pool options.
      *
      * @return Mongo object
-     * @throws Exception if database cannot be resolved
+     * @throws Exception if pool initialization failed
      */
     @Override
     public Mongo mongo() throws Exception {
