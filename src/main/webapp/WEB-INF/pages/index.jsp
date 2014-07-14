@@ -38,37 +38,36 @@
         <!-- end Sidebar -->
 
         <!-- Content -->
-        <div class="col-md-9">
-            <c:forEach var="article" items="${articles}">
-                <div id="article-block" class="row">
+        <div id="news-body" class="col-md-9">
+                <div id="article-block" class="row articles">
                         <div class="col-md-7">
-                            <h3>${article.title}</h3>
+                            <h3 id="article-title"></h3>
                         </div>
                         <div class="col-md-5 date">
-                            <p>${article.date}</p>
+                            <p id="article-date"></p>
                         </div>
                         <div class="col-md-12">
-                            <p>${article.description}</p>
+                            <p id="article-description"></p>
                         </div>
                         <div class="col-md-5 col-md-offset-7">
                             <div class="row">
                                 <div class="col-md-4">
                                     <p class="right-position">
-                                        <a href="view/<c:out value="${article.id}"/>">
+                                        <a href="view/<c:out value=""/>">
                                             <spring:message code="action.view"/>
                                         </a>
                                     </p>
                                 </div>
                                 <div class="col-md-4">
                                     <p class="right-position">
-                                        <a href="edit/<c:out value="${article.id}"/>">
+                                        <a href="edit/<c:out value=""/>">
                                             <spring:message code="action.edit"/>
                                         </a>
                                     </p>
                                 </div>
                                 <div class="col-md-4">
                                     <p class="right-position">
-                                        <a href="delete/<c:out value="${article.id}"/>">
+                                        <a href="delete/<c:out value=""/>">
                                             <spring:message code="action.delete"/>
                                         </a>
                                     </p>
@@ -76,7 +75,6 @@
                             </div>
                         </div>
                 </div>
-            </c:forEach>
         </div>
         <!-- end Content -->
     </div>
@@ -84,5 +82,6 @@
 </div>
 <script src="<spring:url value="/js/jquery-2.1.1.js"/>"></script>
 <script src="<spring:url value="/js/scripts.js"/>"></script>
+<script src="<spring:url value="/js/api.js"/>"></script>
 </body>
 </html>
