@@ -50,7 +50,7 @@
 
         <!-- Content -->
         <div class="col-md-9">
-            <div id="article-block" class="row">
+            <div id="article-block" class="row articles">
                 <form:form method="post" commandName="proposedArticle">
                     <div class="form-group">
                         <label for="inputTitle" class="col-md-3 control-label">

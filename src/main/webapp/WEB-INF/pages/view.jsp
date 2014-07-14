@@ -52,7 +52,7 @@
 
         <!-- Content -->
         <div class="col-md-9">
-                <div id="article-block" class="row">
+                <div id="article-block" class="row articles">
                     <div class="col-md-7">
                         <h3>${article.title}</h3>
                     </div>
