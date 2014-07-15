@@ -29,7 +29,7 @@ function loadAllNews() {
 }
 
 /**
- * This function loads single news for view
+ * This function loads single news for view from API
  */
 function loadNewsForView() {
     $.ajax({
@@ -49,17 +49,36 @@ function loadNewsForView() {
     });
 }
 
+/**
+ * Adds custom value to tag id
+ *
+ * @param article Html element
+ * @param id {number} - tag id
+ * @param value {string} - appending value
+ */
 function changeId(article, id, value) {
     $(article).find(id).attr("id", function (i, val) {
         return val + value;
     });
 }
 
+/**
+ * This function searches number in current pathname
+ *
+ * @returns {number} - id at the pathname end
+ */
 function getIDFromCurrentPageUrl() {
     var re = /[0-9]+/;
-    return re.exec(window.location.pathname);
+    return re.exec(window.location.pathname)[0];
 }
 
+/**
+ * Adds article id to different hrefs
+ *
+ * @param article Html element
+ * @param items Array of tag id's
+ * @param id {number} - article id
+ */
 function addIdToHref(article, items, id) {
     items.forEach(function (item) {
         $(article).find(item).attr("href", function (i, val) {
