@@ -9,7 +9,7 @@ $.ajax({
             });
             $(article).find("#article-title").text(value["title"]);
             changeId(article, "#article-title", value["id"]);
-            $(article).find("#article-date").text(new Date(value["date"]));
+            $(article).find("#article-date").text(new Date(value["date"]).toLocaleDateString());
             changeId(article, "#article-date", value["id"]);
             $(article).find("#article-description").text(value["description"]);
             changeId(article, "#article-description", value["id"]);
