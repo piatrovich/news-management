@@ -83,5 +83,8 @@
 <script src="<spring:url value="/js/jquery-2.1.1.js"/>"></script>
 <script src="<spring:url value="/js/scripts.js"/>"></script>
 <script src="<spring:url value="/js/api.js"/>"></script>
+<script type="text/javascript">
+    window.onload(loadAllNews());
+</script>
 </body>
 </html>
