@@ -8,7 +8,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>
-        Title
+        <spring:message code="title.view"/>
     </title>
     <!-- Styles -->
     <link href="<spring:url value="/css/bootstrap.min.css"/>" rel="stylesheet">
@@ -21,7 +21,11 @@
         <div class="container-fluid">
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
-                    <li><a href="">Back</a></li>
+                    <li>
+                        <a href="${pageContext.request.contextPath}">
+                            <spring:message code="menu.back"/>
+                        </a>
+                    </li>
                 </ul>
                 <c:import url="common/lang.jsp"/>
             </div>
@@ -33,16 +37,22 @@
         <!-- Sidebar-->
         <div class="col-md-3" id="sidebar">
             <div class="list-group">
-                <a href="#" class="list-group-item">Add news</a>
-                <a href="#" class="list-group-item">Edit news</a>
-                <a href="${pageContext.request.contextPath}/delete/${article.id}" class="list-group-item">Delete news</a>
+                <a href="${pageContext.request.contextPath}/add" class="list-group-item">
+                    <spring:message code="menu.add.news"/>
+                </a>
+                <a href="${pageContext.request.contextPath}/edit/${article.id}" class="list-group-item">
+                    <spring:message code="menu.edit.news"/>
+                </a>
+                <a href="${pageContext.request.contextPath}/delete/${article.id}" class="list-group-item">
+                    <spring:message code="menu.delete.news"/>
+                </a>
             </div>
         </div>
         <!-- end Sidebar -->
 
         <!-- Content -->
         <div class="col-md-9">
-                <div id="article-block" class="row">
+                <div id="article-block" class="row articles">
                     <div class="col-md-7">
                         <h3>${article.title}</h3>
                     </div>

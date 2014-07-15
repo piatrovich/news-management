@@ -8,15 +8,13 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>
-        Title
+        <spring:message code="title.index"/>
     </title>
     <!-- Styles -->
     <link href="<spring:url value="/css/bootstrap.min.css"/>" rel="stylesheet">
     <link href="<spring:url value="/css/custom.css"/>" rel="stylesheet">
 </head>
 <body>
-<script src="<spring:url value="/js/jquery-2.1.1.js"/>"></script>
-<script src="<spring:url value="/js/scripts.js"/>"></script>
 <div class="container">
     <!-- Static navbar -->
     <div class="navbar navbar-default">
@@ -32,56 +30,58 @@
         <!-- Sidebar-->
         <div class="col-md-3" id="sidebar">
             <div class="list-group">
-                <a href="add" class="list-group-item">Add news</a>
+                <a href="add" class="list-group-item">
+                    <spring:message code="menu.add.news"/>
+                </a>
             </div>
         </div>
         <!-- end Sidebar -->
 
         <!-- Content -->
-        <div class="col-md-9">
-            <c:forEach var="article" items="${articles}">
-                <div id="article-block" class="row">
+        <div id="news-body" class="col-md-9">
+                <div id="article-block" class="row articles">
                         <div class="col-md-7">
-                            <h3>${article.title}</h3>
+                            <h3 id="article-title"></h3>
                         </div>
                         <div class="col-md-5 date">
-                            <p>${article.date}</p>
+                            <p id="article-date"></p>
                         </div>
                         <div class="col-md-12">
-                            <p>${article.description}</p>
+                            <p id="article-description"></p>
                         </div>
-                        <div class="col-md-4 col-md-offset-8">
+                        <div class="col-md-5 col-md-offset-7">
                             <div class="row">
                                 <div class="col-md-4">
-                                    <p>
-                                        <a href="view/<c:out value="${article.id}"/>">
-                                            <spring:message code="action.view" text="N/A"/>
+                                    <p class="right-position">
+                                        <a href="view/<c:out value=""/>">
+                                            <spring:message code="action.view"/>
                                         </a>
                                     </p>
                                 </div>
                                 <div class="col-md-4">
-                                    <p>
-                                        <a href="edit/<c:out value="${article.id}"/>">
-                                            <spring:message code="action.edit" text="N/A"/>
+                                    <p class="right-position">
+                                        <a href="edit/<c:out value=""/>">
+                                            <spring:message code="action.edit"/>
                                         </a>
                                     </p>
                                 </div>
                                 <div class="col-md-4">
-                                    <p>
-                                        <a href="delete/<c:out value="${article.id}"/>">
-                                            <spring:message code="action.delete" text="N/A"/>
+                                    <p class="right-position">
+                                        <a href="delete/<c:out value=""/>">
+                                            <spring:message code="action.delete"/>
                                         </a>
                                     </p>
                                 </div>
                             </div>
                         </div>
                 </div>
-            </c:forEach>
         </div>
         <!-- end Content -->
     </div>
     <c:import url="common/footer.jsp"/>
 </div>
-
+<script src="<spring:url value="/js/jquery-2.1.1.js"/>"></script>
+<script src="<spring:url value="/js/scripts.js"/>"></script>
+<script src="<spring:url value="/js/api.js"/>"></script>
 </body>
 </html>
