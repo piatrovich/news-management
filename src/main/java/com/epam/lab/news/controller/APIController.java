@@ -15,12 +15,17 @@ public class APIController {
     private NewsService newsService;
 
     @RequestMapping(value = "/all", method = RequestMethod.GET, headers = "Accept=application/json")
-    public Iterable<Article> showAllArticles() {
+    public Iterable<Article> showIndex() {
         return newsService.getAll();
     }
 
     @RequestMapping(value = "/view/{id}", method = RequestMethod.GET, headers = "Accept=application/json")
-    public Article showArticle(@PathVariable Long id) {
+    public Article showView(@PathVariable Long id) {
+        return newsService.get(id);
+    }
+
+    @RequestMapping(value = "/edit/{id}", method = RequestMethod.GET, headers = "Accept=application/json")
+    public Article showEdit(@PathVariable Long id) {
         return newsService.get(id);
     }
 

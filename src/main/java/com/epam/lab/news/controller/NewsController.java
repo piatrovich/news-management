@@ -55,7 +55,7 @@ public class NewsController {
     }
 
     @RequestMapping(value = "/edit/{id}", method = RequestMethod.GET)
-    public String editArticle(@PathVariable Long id, Model model) {
+    public String editArticle(@PathVariable Long id) {
         return "edit";
     }
 

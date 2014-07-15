@@ -50,10 +50,30 @@ function loadNewsForView() {
 }
 
 /**
+ * Loads single news from API and fills page.
+ */
+function loadNewsForEdit() {
+    $.ajax({
+        type: "GET",
+        url: "http://localhost:8080/news-management/api/edit/" + getIDFromCurrentPageUrl(),
+        success: function(data){
+            $("#inputTitle").attr("value", data["title"]);
+            $("#inputShort").text(data["description"]);
+            $("#inputLong").text(data["text"]);
+            addIdToHref($("#sidebar"), ["#article-delete"], data["id"]);
+        },
+        error: function(jqXHR, textStatus, errorThrown) {
+            alert(jqXHR.status + " Error has occurred");
+        },
+        dataType: "json"
+    });
+}
+
+/**
  * Adds custom value to tag id
  *
  * @param article Html element
- * @param id {number} - tag id
+ * @param id {string} - tag id
  * @param value {string} - appending value
  */
 function changeId(article, id, value) {
