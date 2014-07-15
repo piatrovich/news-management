@@ -39,7 +39,7 @@
 
         <!-- Content -->
         <div id="news-body" class="col-md-9">
-                <div id="article-block" class="row articles">
+                <div id="article-block-template" class="row articles">
                         <div class="col-md-7">
                             <h3 id="article-title"></h3>
                         </div>
@@ -53,21 +53,21 @@
                             <div class="row">
                                 <div class="col-md-4">
                                     <p class="right-position">
-                                        <a href="view/<c:out value=""/>">
+                                        <a id="article-view" href="view">
                                             <spring:message code="action.view"/>
                                         </a>
                                     </p>
                                 </div>
                                 <div class="col-md-4">
                                     <p class="right-position">
-                                        <a href="edit/<c:out value=""/>">
+                                        <a id="article-edit" href="edit">
                                             <spring:message code="action.edit"/>
                                         </a>
                                     </p>
                                 </div>
                                 <div class="col-md-4">
                                     <p class="right-position">
-                                        <a href="delete/<c:out value=""/>">
+                                        <a id="article-delete" href="delete">
                                             <spring:message code="action.delete"/>
                                         </a>
                                     </p>
@@ -84,7 +84,7 @@
 <script src="<spring:url value="/js/scripts.js"/>"></script>
 <script src="<spring:url value="/js/api.js"/>"></script>
 <script type="text/javascript">
-    window.onload(loadAllNews());
+    window.onload = loadAllNews();
 </script>
 </body>
 </html>

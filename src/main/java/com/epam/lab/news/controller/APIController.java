@@ -19,7 +19,7 @@ public class APIController {
         return newsService.getAll();
     }
 
-    @RequestMapping(value = "/{id}", method = RequestMethod.GET, headers = "Accept=application/json")
+    @RequestMapping(value = "/view/{id}", method = RequestMethod.GET, headers = "Accept=application/json")
     public Article showArticle(@PathVariable Long id) {
         return newsService.get(id);
     }

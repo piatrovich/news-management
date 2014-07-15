@@ -40,10 +40,10 @@
                 <a href="${pageContext.request.contextPath}/add" class="list-group-item">
                     <spring:message code="menu.add.news"/>
                 </a>
-                <a href="${pageContext.request.contextPath}/edit/${article.id}" class="list-group-item">
+                <a id="article-edit" href="${pageContext.request.contextPath}/edit" class="list-group-item">
                     <spring:message code="menu.edit.news"/>
                 </a>
-                <a href="${pageContext.request.contextPath}/delete/${article.id}" class="list-group-item">
+                <a id="article-delete" href="${pageContext.request.contextPath}/delete" class="list-group-item">
                     <spring:message code="menu.delete.news"/>
                 </a>
             </div>
@@ -54,17 +54,17 @@
         <div class="col-md-9">
                 <div id="article-block" class="row articles">
                     <div class="col-md-7">
-                        <h3>${article.title}</h3>
+                        <h3 id="article-title"></h3>
                     </div>
                     <div class="col-md-5 date">
-                        <p>${article.date}</p>
+                        <p id="article-date"></p>
                     </div>
                     <div class="col-md-12">
-                        <p>${article.description}</p>
+                        <p id="article-description"></p>
                     </div>
                     <br />
                     <div class="col-md-12">
-                        <p>${article.text}</p>
+                        <p id="article-text"></p>
                     </div>
                 </div>
         </div>
@@ -72,6 +72,11 @@
     </div>
     <c:import url="common/footer.jsp"/>
 </div>
-
+<script src="<spring:url value="/js/jquery-2.1.1.js"/>"></script>
+<script src="<spring:url value="/js/scripts.js"/>"></script>
+<script src="<spring:url value="/js/api.js"/>"></script>
+<script type="text/javascript">
+    window.onload(loadNewsForView());
+</script>
 </body>
 </html>
