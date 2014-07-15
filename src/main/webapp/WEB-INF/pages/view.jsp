@@ -76,7 +76,7 @@
 <script src="<spring:url value="/js/scripts.js"/>"></script>
 <script src="<spring:url value="/js/api.js"/>"></script>
 <script type="text/javascript">
-    window.onload(loadNewsForView());
+    window.onload = loadNewsForView();
 </script>
 </body>
 </html>
