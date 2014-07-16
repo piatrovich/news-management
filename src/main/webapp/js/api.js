@@ -34,7 +34,7 @@ function loadAllNews() {
 function loadNewsForView() {
     $.ajax({
         type: "GET",
-        url: "http://localhost:8080/news-management/api/view/" + getIDFromCurrentPageUrl(),
+        url: "http://localhost:8080/news-management/api/get/" + getIDFromCurrentPageUrl(),
         success: function (data) {
             $("#article-title").text(data["title"]);
             $("#article-date").text(new Date(data["date"]).toLocaleDateString());
@@ -55,7 +55,7 @@ function loadNewsForView() {
 function loadNewsForEdit() {
     $.ajax({
         type: "GET",
-        url: "http://localhost:8080/news-management/api/edit/" + getIDFromCurrentPageUrl(),
+        url: "http://localhost:8080/news-management/api/get/" + getIDFromCurrentPageUrl(),
         success: function(data){
             $("#inputTitle").attr("value", data["title"]);
             $("#inputShort").text(data["description"]);

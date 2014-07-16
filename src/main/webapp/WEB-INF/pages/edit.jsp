@@ -56,7 +56,7 @@
                             <spring:message code="page.body.title"/>
                         </label>
                         <div class="col-md-9">
-                            <input type="text" class="form-control" id="inputTitle" value="article.tile">
+                            <input type="text" class="form-control" id="inputTitle" value="">
                         </div>
                     </div>
                     <div class="col-md-9 col-md-offset-3">
@@ -69,7 +69,7 @@
                             <spring:message code="page.body.description.short"/>
                         </label>
                         <div class="col-md-9">
-                            <textarea class="form-control" rows="4" id="inputShort">article.description</textarea>
+                            <textarea class="form-control" rows="4" id="inputShort"></textarea>
                         </div>
                     </div>
                     <div class="col-md-9 col-md-offset-3">
@@ -82,7 +82,7 @@
                             <spring:message code="page.body.description.long"/>
                         </label>
                         <div class="col-md-9">
-                            <textarea class="form-control" rows="10" id="inputLong">article.text</textarea>
+                            <textarea class="form-control" rows="10" id="inputLong"></textarea>
                         </div>
                     </div>
                     <div class="col-md-9 col-md-offset-3">

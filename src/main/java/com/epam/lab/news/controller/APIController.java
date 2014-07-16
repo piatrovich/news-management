@@ -11,21 +11,31 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/api/")
 public class APIController {
-    @Autowired
-    private NewsService newsService;
+    /** Service for working with data */
+    private @Autowired NewsService newsService;
 
+    /**
+     *
+     *
+     * @return JSON array
+     */
     @RequestMapping(value = "/all", method = RequestMethod.GET, headers = "Accept=application/json")
-    public Iterable<Article> showIndex() {
+    public Iterable<Article> getArticles() {
         return newsService.getAll();
     }
 
-    @RequestMapping(value = "/view/{id}", method = RequestMethod.GET, headers = "Accept=application/json")
-    public Article showView(@PathVariable Long id) {
+    @RequestMapping(value = "/get/{id}", method = RequestMethod.GET, headers = "Accept=application/json")
+    public Article getArticleForView(@PathVariable Long id) {
         return newsService.get(id);
     }
 
-    @RequestMapping(value = "/edit/{id}", method = RequestMethod.GET, headers = "Accept=application/json")
-    public Article showEdit(@PathVariable Long id) {
+    @RequestMapping(value = "/update/{id}", method = RequestMethod.GET, headers = "Accept=application/json")
+    public Article updateArticle(@PathVariable Long id) {
+        return newsService.get(id);
+    }
+
+    @RequestMapping(value = "/delete/{id}", method = RequestMethod.GET, headers = "Accept=application/json")
+    public Article deleteArticle(@PathVariable Long id) {
         return newsService.get(id);
     }
 
