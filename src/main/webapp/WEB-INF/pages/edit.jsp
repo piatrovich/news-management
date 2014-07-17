@@ -1,7 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib uri="http://www.springframework.org/tags" prefix="spring" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<%@ taglib uri="http://www.springframework.org/tags/form" prefix="form" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -41,7 +40,7 @@
                 <a href="${pageContext.request.contextPath}" class="list-group-item">
                     <spring:message code="menu.list.news"/>
                 </a>
-                <a href="${pageContext.request.contextPath}/delete/${article.id}" class="list-group-item">
+                <a id="article-delete" href="${pageContext.request.contextPath}/delete" class="list-group-item">
                     <spring:message code="menu.delete.news"/>
                 </a>
             </div>
@@ -51,18 +50,18 @@
         <!-- Content -->
         <div class="col-md-9">
             <div id="article-block" class="row articles">
-                <form:form method="post" commandName="proposedArticle">
+                <form method="post">
                     <div class="form-group">
                         <label for="inputTitle" class="col-md-3 control-label">
                             <spring:message code="page.body.title"/>
                         </label>
                         <div class="col-md-9">
-                            <input type="text" class="form-control" id="inputTitle" value="${article.title}">
+                            <input type="text" class="form-control" id="inputTitle" value="">
                         </div>
                     </div>
                     <div class="col-md-9 col-md-offset-3">
                         <label class="text-danger">
-                            <form:errors path="title"/>
+
                         </label>
                     </div>
                     <div class="form-group">
@@ -70,12 +69,12 @@
                             <spring:message code="page.body.description.short"/>
                         </label>
                         <div class="col-md-9">
-                            <textarea class="form-control" rows="4" id="inputShort">${article.description}</textarea>
+                            <textarea class="form-control" rows="4" id="inputShort"></textarea>
                         </div>
                     </div>
                     <div class="col-md-9 col-md-offset-3">
                         <label class="text-danger">
-                            <form:errors path="description"/>
+
                         </label>
                     </div>
                     <div class="form-group">
@@ -83,12 +82,11 @@
                             <spring:message code="page.body.description.long"/>
                         </label>
                         <div class="col-md-9">
-                            <textarea class="form-control" rows="10" id="inputLong">${article.text}</textarea>
+                            <textarea class="form-control" rows="10" id="inputLong"></textarea>
                         </div>
                     </div>
                     <div class="col-md-9 col-md-offset-3">
                         <label class="text-danger">
-                            <form:errors path="text"/>
                         </label>
                     </div>
                     <div class="col-md-9 col-md-offset-3 right-position">
@@ -98,13 +96,18 @@
                                onclick="window.location.href='/${pageContext.request.contextPath}'"
                                value="<spring:message code="page.body.button.cancel"/>">
                     </div>
-                </form:form>
+                </form>
             </div>
         </div>
         <!-- end Content -->
     </div>
     <c:import url="common/footer.jsp"/>
 </div>
-
+<script src="<spring:url value="/js/jquery-2.1.1.js"/>"></script>
+<script src="<spring:url value="/js/scripts.js"/>"></script>
+<script src="<spring:url value="/js/api.js"/>"></script>
+<script type="text/javascript">
+    window.onload = loadNewsForEdit();
+</script>
 </body>
 </html>
