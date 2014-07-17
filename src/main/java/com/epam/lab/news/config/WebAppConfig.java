@@ -1,9 +1,11 @@
 package com.epam.lab.news.config;
 
+import com.epam.lab.news.data.pool.ConnectionPool;
 import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
 import org.springframework.context.support.ReloadableResourceBundleMessageSource;
 import org.springframework.web.servlet.LocaleResolver;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
@@ -60,6 +62,16 @@ public class WebAppConfig extends WebMvcConfigurerAdapter {
         messageSource.setCacheSeconds(1);
         messageSource.setBasename("classpath:interface");
         return messageSource;
+    }
+
+    /**
+     * This configurer needs for loading data from properties.
+     *
+     * @return PropertySourcesPlaceholderConfigurer object
+     */
+    @Bean
+    public static PropertySourcesPlaceholderConfigurer getPropertySourcesPlaceholderConfigurer() {
+        return new PropertySourcesPlaceholderConfigurer();
     }
 
 }
