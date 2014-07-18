@@ -1,9 +1,11 @@
 package com.epam.lab.news.config;
 
+import com.epam.lab.news.aop.logging.ApplicationAPILogger;
 import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.EnableAspectJAutoProxy;
 import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
 import org.springframework.context.support.ReloadableResourceBundleMessageSource;
 import org.springframework.web.servlet.LocaleResolver;
@@ -18,6 +20,7 @@ import org.springframework.web.servlet.view.InternalResourceViewResolver;
 import java.util.Locale;
 
 @EnableWebMvc
+@EnableAspectJAutoProxy
 @ComponentScan(basePackages = {"com.epam.lab.news"})
 @Configuration
 public class WebAppConfig extends WebMvcConfigurerAdapter {
@@ -71,6 +74,11 @@ public class WebAppConfig extends WebMvcConfigurerAdapter {
     @Bean
     public static PropertySourcesPlaceholderConfigurer getPropertySourcesPlaceholderConfigurer() {
         return new PropertySourcesPlaceholderConfigurer();
+    }
+
+    @Bean
+    public ApplicationAPILogger getApplicationAPILogger(){
+        return new ApplicationAPILogger();
     }
 
 }
