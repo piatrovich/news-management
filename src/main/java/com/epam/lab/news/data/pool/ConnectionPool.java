@@ -14,10 +14,10 @@ import java.sql.SQLException;
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
 
-@Component
-@PropertySource("classpath:pool/jdbc.properties")
+//@Component
+//@PropertySource("classpath:pool/jdbc.properties")
 public class ConnectionPool {
-    private @Autowired PropertySourcesPlaceholderConfigurer configurer;
+    //private @Autowired PropertySourcesPlaceholderConfigurer configurer;
 
     private @Value("${jdbc.driver}") String driver;
     private @Value("${jdbc.url}") String url;
