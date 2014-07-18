@@ -11,7 +11,7 @@ public class ConnectionPoolObserver {
     }
 
     @After(value = "@annotation(javax.annotation.PostConstruct)")   // another way
-    //@Pointcut("call(* com.epam.lab.news.database.jdbc.pool.ConnectionPool.size())")   Solution???
+    //@Pointcut("call( public * com.epam.lab.news.database.jdbc.pool.ConnectionPool.size())")  It's not possible!
     public void observeFinishInit(){
         System.out.println("Finishing init() method!");
     }
