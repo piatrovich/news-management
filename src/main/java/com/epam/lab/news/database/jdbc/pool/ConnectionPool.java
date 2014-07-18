@@ -14,10 +14,10 @@ import java.sql.SQLException;
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
 
-//@Component
-//@PropertySource("classpath:pool/jdbc.properties")
+@Component
+@PropertySource("classpath:pool/jdbc.properties")
 public class ConnectionPool {
-    //private @Autowired PropertySourcesPlaceholderConfigurer configurer;
+    private @Autowired PropertySourcesPlaceholderConfigurer configurer;
 
     private @Value("${jdbc.driver}") String driver;
     private @Value("${jdbc.url}") String url;
@@ -36,10 +36,6 @@ public class ConnectionPool {
         return instance;
     } */
 
-    private ConnectionPool(){
-        init();
-    }
-
     @PostConstruct
     private void init(){
         pool = new ArrayBlockingQueue<Connection>(size);
@@ -49,9 +45,9 @@ public class ConnectionPool {
                 pool.add(DriverManager.getConnection(url));
             }
         } catch (ClassNotFoundException e) {
-
+            System.out.println("Class not found");
         } catch (SQLException e) {
-
+            System.out.println("Error when trying to create a new connection");
         }
 
     }
@@ -92,6 +88,10 @@ public class ConnectionPool {
 
             }
         }
+    }
+
+    public int size(){
+        return pool != null ? pool.size() : 0;
     }
 
 }

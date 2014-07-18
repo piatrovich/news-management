@@ -2,6 +2,7 @@ package com.epam.lab.news.config;
 
 import com.epam.lab.news.aop.interceptor.ServiceExceptionInterceptor;
 import com.epam.lab.news.aop.logging.ApplicationAPILogger;
+import com.epam.lab.news.aop.observer.ConnectionPoolObserver;
 import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
@@ -85,6 +86,11 @@ public class WebAppConfig extends WebMvcConfigurerAdapter {
     @Bean
     public ServiceExceptionInterceptor getServiceExceptionInterceptor(){
         return new ServiceExceptionInterceptor();
+    }
+
+    @Bean
+    public ConnectionPoolObserver getConnectionPoolObserver(){
+        return new ConnectionPoolObserver();
     }
 
 }
