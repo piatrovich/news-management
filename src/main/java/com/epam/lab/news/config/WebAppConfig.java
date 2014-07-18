@@ -1,5 +1,6 @@
 package com.epam.lab.news.config;
 
+import com.epam.lab.news.aop.interceptor.ServiceExceptionInterceptor;
 import com.epam.lab.news.aop.logging.ApplicationAPILogger;
 import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
@@ -79,6 +80,11 @@ public class WebAppConfig extends WebMvcConfigurerAdapter {
     @Bean
     public ApplicationAPILogger getApplicationAPILogger(){
         return new ApplicationAPILogger();
+    }
+
+    @Bean
+    public ServiceExceptionInterceptor getServiceExceptionInterceptor(){
+        return new ServiceExceptionInterceptor();
     }
 
 }

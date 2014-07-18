@@ -40,7 +40,8 @@ public class NewsService {
      * @return Article instance
      */
     public Article get(Long id) {
-        return repository.findOne(id);
+        throw new RuntimeException("Exception from newsService");
+        //return repository.findOne(id);
     }
 
     public void save(Article article) {
