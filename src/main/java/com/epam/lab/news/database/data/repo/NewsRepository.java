@@ -1,4 +1,4 @@
-package com.epam.lab.news.data.repo;
+package com.epam.lab.news.database.data.repo;
 
 import com.epam.lab.news.bean.Article;
 import org.springframework.data.repository.CrudRepository;

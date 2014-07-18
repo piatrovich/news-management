@@ -1,7 +1,7 @@
 package com.epam.lab.news.controller;
 
 import com.epam.lab.news.bean.Article;
-import com.epam.lab.news.data.service.NewsService;
+import com.epam.lab.news.database.data.service.NewsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;

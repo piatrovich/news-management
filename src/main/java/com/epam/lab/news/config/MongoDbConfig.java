@@ -23,7 +23,7 @@ import org.springframework.data.mongodb.repository.config.EnableMongoRepositorie
  * @since 0.1.0-alpha
  */
 @Configuration
-@EnableMongoRepositories(basePackages = "com.epam.lab.news.data.repo")
+@EnableMongoRepositories(basePackages = "com.epam.lab.news.database.data.repo")
 @PropertySource("classpath:pool/mongo.properties")
 public class MongoDbConfig extends AbstractMongoConfiguration {
     private @Autowired PropertySourcesPlaceholderConfigurer configurer;

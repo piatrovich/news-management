@@ -1,6 +1,5 @@
 package com.epam.lab.news.config;
 
-import com.epam.lab.news.data.pool.ConnectionPool;
 import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;

@@ -1,4 +1,4 @@
-package com.epam.lab.news.data.pool;
+package com.epam.lab.news.database.jdbc.pool;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
