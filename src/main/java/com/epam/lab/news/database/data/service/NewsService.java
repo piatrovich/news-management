@@ -1,9 +1,9 @@
-package com.epam.lab.news.data.service;
+package com.epam.lab.news.database.data.service;
 
 import com.epam.lab.news.bean.Article;
-import com.epam.lab.news.data.bean.Counter;
-import com.epam.lab.news.data.repo.CounterRepository;
-import com.epam.lab.news.data.repo.NewsRepository;
+import com.epam.lab.news.database.data.bean.Counter;
+import com.epam.lab.news.database.data.repo.CounterRepository;
+import com.epam.lab.news.database.data.repo.NewsRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -40,6 +40,7 @@ public class NewsService {
      * @return Article instance
      */
     public Article get(Long id) {
+        //throw new RuntimeException("Exception from newsService");
         return repository.findOne(id);
     }
 

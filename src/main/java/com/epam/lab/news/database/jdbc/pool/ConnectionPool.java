@@ -1,5 +1,6 @@
-package com.epam.lab.news.data.pool;
+package com.epam.lab.news.database.jdbc.pool;
 
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
@@ -15,13 +16,22 @@ import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
 
 //@Component
-//@PropertySource("classpath:pool/jdbc.properties")
+@PropertySource("classpath:pool/jdbc.properties")
 public class ConnectionPool {
-    //private @Autowired PropertySourcesPlaceholderConfigurer configurer;
+    private static Logger logger = Logger.getLogger("errors");
 
-    private @Value("${jdbc.driver}") String driver;
-    private @Value("${jdbc.url}") String url;
-    private @Value("${jdbc.size}") Integer size;
+    @Autowired
+    PropertySourcesPlaceholderConfigurer configurer;
+
+    private
+    @Value("${jdbc.driver}")
+    String driver;
+    private
+    @Value("${jdbc.url}")
+    String url;
+    private
+    @Value("${jdbc.size}")
+    Integer size;
 
     private BlockingQueue<Connection> pool;
 
@@ -36,22 +46,18 @@ public class ConnectionPool {
         return instance;
     } */
 
-    private ConnectionPool(){
-        init();
-    }
-
     @PostConstruct
-    private void init(){
+    private void init() {
         pool = new ArrayBlockingQueue<Connection>(size);
         try {
             Class.forName(driver);
-            for(int i = 0; i < size; ++i){
+            for (int i = 0; i < size; ++i) {
                 pool.add(DriverManager.getConnection(url));
             }
         } catch (ClassNotFoundException e) {
-
+            logger.error("Driver class not found", e);
         } catch (SQLException e) {
-
+            logger.error("Error when trying to create a new connection", e);
         }
 
     }
@@ -60,38 +66,40 @@ public class ConnectionPool {
         Connection connection = null;
         try {
             connection = pool.take();
-            if (connection == null){
+            if (connection == null) {
                 connection = DriverManager.getConnection(url);
             }
         } catch (InterruptedException e) {
-
+            logger.error("Can't take connection from pool.", e);
         } catch (SQLException e) {
-
+            logger.error("Getting connection from DriverManager failed.", e);
         }
         return connection;
     }
 
-    public void returnConnection(Connection connection){
-        if(connection != null) {
-            try {
-                pool.put(connection);
-            } catch (InterruptedException e){
-
-            }
+    public void returnConnection(Connection connection) {
+        try {
+            pool.put(connection);
+        } catch (InterruptedException e) {
+            logger.error("Can't put connection to pool.", e);
         }
     }
 
     @PreDestroy
-    public void destroy(){
+    public void destroy() {
         while (!pool.isEmpty()) {
             try {
                 pool.take().close();
             } catch (SQLException e) {
-
+                logger.error("Closing connection failed.", e);
             } catch (InterruptedException e) {
-
+                logger.error("Taking connection from pool failed. Pool destroying failed.", e);
             }
         }
+    }
+
+    public int size() {
+        return pool != null ? pool.size() : 0;
     }
 
 }

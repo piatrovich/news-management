@@ -10,6 +10,7 @@
     <properties>
         <spring.version>4.0.6.RELEASE</spring.version>
         <jackson.databind-version>2.2.3</jackson.databind-version>
+        <aspectj.version>1.8.1</aspectj.version>
     </properties>
 
     <dependencies>
@@ -42,6 +43,24 @@
             <groupId>org.springframework</groupId>
             <artifactId>spring-webmvc</artifactId>
             <version>${spring.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.aspectj</groupId>
+            <artifactId>aspectjrt</artifactId>
+            <version>${aspectj.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.aspectj</groupId>
+            <artifactId>aspectjweaver</artifactId>
+            <version>${aspectj.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>cglib</groupId>
+            <artifactId>cglib</artifactId>
+            <version>2.2</version>
         </dependency>
 
         <dependency>
@@ -86,6 +105,12 @@
             <groupId>com.unityjdbc</groupId>
             <artifactId>unityjdbc-mongo-driver</artifactId>
             <version>1.8.3</version>
+        </dependency>
+
+        <dependency>
+            <groupId>log4j</groupId>
+            <artifactId>log4j</artifactId>
+            <version>1.2.17</version>
         </dependency>
 
     </dependencies>
