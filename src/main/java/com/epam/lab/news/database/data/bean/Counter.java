@@ -1,4 +1,4 @@
-package com.epam.lab.news.data.bean;
+package com.epam.lab.news.database.data.bean;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;

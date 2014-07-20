@@ -4,11 +4,11 @@ import com.mongodb.Mongo;
 import com.mongodb.MongoClient;
 import com.mongodb.MongoClientOptions;
 import com.mongodb.ServerAddress;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
-import org.springframework.context.annotation.PropertySources;
 import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
 import org.springframework.data.mongodb.MongoDbFactory;
 import org.springframework.data.mongodb.config.AbstractMongoConfiguration;
@@ -23,9 +23,10 @@ import org.springframework.data.mongodb.repository.config.EnableMongoRepositorie
  * @since 0.1.0-alpha
  */
 @Configuration
-@EnableMongoRepositories(basePackages = "com.epam.lab.news.data.repo")
+@EnableMongoRepositories(basePackages = "com.epam.lab.news.database.data.repo")
 @PropertySource("classpath:pool/mongo.properties")
 public class MongoDbConfig extends AbstractMongoConfiguration {
+    private @Autowired PropertySourcesPlaceholderConfigurer configurer;
 
     private @Value("${mongo.database}") String database;
     private @Value("${mongo.host}") String host;
@@ -36,16 +37,6 @@ public class MongoDbConfig extends AbstractMongoConfiguration {
     private @Value("${mongo.max.wait.time}") Integer maxWaitTime;
     private @Value("${mongo.socket.keep.alive}") Boolean socketKeepAlive;
     private @Value("${mongo.socket.timeout}") Integer socketTimeout;
-
-    /**
-     * This configurer needs for loading data from properties.
-     *
-     * @return PropertySourcesPlaceholderConfigurer object
-     */
-    @Bean
-    public static PropertySourcesPlaceholderConfigurer propertySourcesPlaceholderConfigurer() {
-        return new PropertySourcesPlaceholderConfigurer();
-    }
 
     /**
      * Returns database name.

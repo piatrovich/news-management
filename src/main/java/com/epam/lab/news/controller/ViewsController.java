@@ -1,6 +1,6 @@
 package com.epam.lab.news.controller;
 
-import com.epam.lab.news.data.service.NewsService;
+import com.epam.lab.news.database.data.service.NewsService;
 import com.epam.lab.news.logic.validation.ArticleValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
