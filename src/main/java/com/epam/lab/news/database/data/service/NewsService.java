@@ -40,7 +40,6 @@ public class NewsService {
      * @return Article instance
      */
     public Article get(Long id) {
-        //throw new RuntimeException("Exception from newsService");
         return repository.findOne(id);
     }
 
@@ -52,7 +51,7 @@ public class NewsService {
         counterRepository.save(counter);
     }
 
-    public void saveChanges(Article article) {
+    public void update(Article article) {
         article.setDate(new Date());
         repository.save(article);
     }

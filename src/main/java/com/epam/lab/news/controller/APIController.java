@@ -2,14 +2,18 @@ package com.epam.lab.news.controller;
 
 import com.epam.lab.news.bean.Article;
 import com.epam.lab.news.database.data.service.NewsService;
+import com.epam.lab.news.database.jdbc.dao.NewsDAO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/")
 public class APIController {
-    /** Service for working with data */
-    private @Autowired NewsService newsService;
+    /** Service for working with data using repositories */
+    //private @Autowired NewsService newsService;
+
+    /** Service for working with data custom dao */
+    private @Autowired NewsDAO newsService;
 
     /**
      *
@@ -33,7 +37,7 @@ public class APIController {
 
     @RequestMapping(value = "/update", method = RequestMethod.POST, headers = "Accept=application/json")
     public void updateArticle(@RequestBody Article article) {
-        newsService.saveChanges(article);
+        newsService.update(article);
     }
 
     @RequestMapping(value = "/delete/{id}", method = RequestMethod.DELETE, headers = "Accept=application/json")
