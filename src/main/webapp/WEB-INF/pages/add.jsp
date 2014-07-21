@@ -1,7 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib uri="http://www.springframework.org/tags" prefix="spring" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<%@ taglib uri="http://www.springframework.org/tags/form" prefix="form" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -48,7 +47,7 @@
         <!-- Content -->
         <div class="col-md-9">
             <div id="article-block" class="row articles">
-                <form:form id="addArticle" method="post" commandName="article">
+                <form id="addArticle">
                     <div class="form-group">
                         <label for="inputTitle" class="col-md-3 control-label">
                             <spring:message code="page.body.title"/>
@@ -59,7 +58,7 @@
                     </div>
                     <div class="col-md-9 col-md-offset-3">
                         <label class="text-danger">
-                            <form:errors path="title"/>
+
                         </label>
                     </div>
                     <div class="form-group">
@@ -72,7 +71,7 @@
                     </div>
                     <div class="col-md-9 col-md-offset-3">
                         <label class="text-danger">
-                            <form:errors path="description"/>
+
                         </label>
                     </div>
                     <div class="form-group">
@@ -85,17 +84,18 @@
                     </div>
                     <div class="col-md-9 col-md-offset-3">
                         <label class="text-danger">
-                            <form:errors path="text" />
+
                         </label>
                     </div>
                     <div class="col-md-9 col-md-offset-3 right-position">
-                        <input type="submit" class="btn btn-default"
-                               value="<spring:message code="page.body.button.save"/>">
+                        <input id="createBtn" type="button" class="btn btn-default"
+                               value="<spring:message code="page.body.button.save"/>"
+                               onclick="window.location.href = '${pageContext.request.contextPath}'">
                         <input id="delBtn" type="button" class="btn btn-default"
                                value="<spring:message code="page.body.button.cancel"/>"
                                onclick="window.location.href = '${pageContext.request.contextPath}'">
                     </div>
-                </form:form>
+                </form>
             </div>
         </div>
         <!-- end Content -->
@@ -104,18 +104,9 @@
 </div>
 <c:import url="confirmation/deletion.jsp"/>
 <script src="<spring:url value="/js/jquery-2.1.1.js"/>"></script>
-<script type="javascript">
-    $(function() {
-        $("#deleteDialog").dialog({
-            autoOpen:false
-        });
-
-        $("#delBtn").dialog("widget").find(".ui-dialog-titlebar-close").hide();
-
-        $("delBtn").click(function(){
-            $("#deleteDialog").dialog("open");
-        });
-    });
+<script src="<spring:url value="/js/api.js"/>"></script>
+<script type="text/javascript">
+    window.onload = addingArticle();
 </script>
 </body>
 </html>

@@ -12,6 +12,9 @@ function loadAllNews() {
                     return val + value["id"];
                 });
                 addIdToHref(article, ["#article-view", "#article-edit", "#article-delete"], value["id"]);
+                $(article).find("#article-delete").click(function(event){
+                    deleteArticle(value["id"], event, this);
+                });
                 $(article).find("#article-title").text(value["title"]);
                 changeId(article, "#article-title", value["id"]);
                 $(article).find("#article-date").text(new Date(value["date"]).toLocaleDateString());
@@ -61,6 +64,7 @@ function loadNewsForEdit() {
             $("#inputShort").text(data["description"]);
             $("#inputLong").text(data["text"]);
             addIdToHref($("#sidebar"), ["#article-delete"], data["id"]);
+            editingArticle();
         },
         error: function(jqXHR, textStatus, errorThrown) {
             alert(jqXHR.status + " Error has occurred");
@@ -105,4 +109,72 @@ function addIdToHref(article, items, id) {
             return val + "/" + id;
         });
     });
+}
+
+function deleteArticle(id, event, element){
+    if(confirm("Do you want delete an article?")){
+        $.ajax({
+            type: "DELETE",
+            url: "http://localhost:8080/news-management/api/delete/" + id,
+            success: function (data) {
+
+            },
+            error: function (jqXHR, textStatus, errorThrown){
+
+            }
+        });
+        element.href = "http://localhost:8080/news-management";
+    } else {
+        event.preventDefault();
+    }
+}
+
+function addingArticle(){
+    $(document).find("#createBtn").click(function(){
+        var article = new Object();
+        article.title = $(document).find("#inputTitle").val();
+        article.description = $(document).find("#inputShort").val();
+        article.text = $(document).find("#inputLong").val();
+        $.ajax({
+            type: "POST",
+            url: "http://localhost:8080/news-management/api/add",
+            contentType : 'application/json; charset=utf-8',
+            data: JSON.stringify(article),
+            success : function(data) {
+
+            },
+            error : function(jqXHR, textStatus, errorThrown) {
+                alert(textStatus);
+            }
+        });
+    });
+}
+
+function editingArticle(){
+    $(document).find("#saveBtn").click(function(event){
+        event.preventDefault();
+        var article = new Object();
+        article.id = getIDFromCurrentPageUrl();
+        article.title = $(document).find("#inputTitle").val();
+        article.description = $(document).find("#inputShort").val();
+        article.text = $(document).find("#inputLong").val();
+        alert(JSON.stringify(article));
+        $.ajax({
+            type: "POST",
+            url: "http://localhost:8080/news-management/api/update",
+            contentType : 'application/json; charset=utf-8',
+            data: JSON.stringify(article),
+            success : function(data) {
+
+            },
+            error : function(jqXHR, textStatus, errorThrown) {
+
+            }
+        });
+    });
+}
+
+
+function validateArticle(article){
+
 }
