@@ -3,6 +3,7 @@ package com.epam.lab.news.database.jdbc.pool;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
 import org.springframework.stereotype.Component;
@@ -15,7 +16,7 @@ import java.sql.SQLException;
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
 
-//@Component
+@Configuration
 @PropertySource("classpath:pool/jdbc.properties")
 public class ConnectionPool {
     private static Logger logger = Logger.getLogger("errors");
@@ -23,15 +24,9 @@ public class ConnectionPool {
     @Autowired
     PropertySourcesPlaceholderConfigurer configurer;
 
-    private
-    @Value("${jdbc.driver}")
-    String driver;
-    private
-    @Value("${jdbc.url}")
-    String url;
-    private
-    @Value("${jdbc.size}")
-    Integer size;
+    private @Value("${jdbc.driver}") String driver;
+    private @Value("${jdbc.url}") String url;
+    private @Value("${jdbc.size}") Integer size;
 
     private BlockingQueue<Connection> pool;
 
@@ -55,7 +50,7 @@ public class ConnectionPool {
                 pool.add(DriverManager.getConnection(url));
             }
         } catch (ClassNotFoundException e) {
-            logger.error("Driver class not found", e);
+            logger.error(" ", e);
         } catch (SQLException e) {
             logger.error("Error when trying to create a new connection", e);
         }
@@ -74,19 +69,22 @@ public class ConnectionPool {
         } catch (SQLException e) {
             logger.error("Getting connection from DriverManager failed.", e);
         }
+        size();
         return connection;
     }
 
     public void returnConnection(Connection connection) {
-        try {
-            pool.put(connection);
-        } catch (InterruptedException e) {
-            logger.error("Can't put connection to pool.", e);
+        if(connection != null) {
+            try {
+                pool.put(connection);
+            } catch (InterruptedException e) {
+                logger.error("Can't put connection to pool.", e);
+            }
         }
     }
 
     @PreDestroy
-    public void destroy() {
+    private void destroy() {
         while (!pool.isEmpty()) {
             try {
                 pool.take().close();

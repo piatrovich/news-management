@@ -10,11 +10,24 @@ import org.aspectj.lang.annotation.Aspect;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 
+/**
+ * This class observes json traffic.
+ *
+ * @author Dzmitry Piatrovich
+ */
 @Aspect
 public class ApplicationAPILogger {
+    /** Logger for observe json documents */
     private static Logger apiLogger = Logger.getLogger("api");
+
+    /** Logger for errors */
     private static Logger errorLogger = Logger.getLogger("errors");
 
+    /**
+     * Logging articles which requested for view
+     *
+     * @param article
+     */
     @AfterReturning(pointcut = "execution(* com.epam.lab.news.controller.APIController.getArticleForView(..))",
                     returning = "article")
     public void listenReturnedPage(Article article) {

@@ -2,36 +2,52 @@ package com.epam.lab.news.aop.observer;
 
 import org.apache.log4j.Logger;
 import org.aspectj.lang.annotation.*;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.PropertySource;
+import org.springframework.core.env.Environment;
 
+/**
+ * Observes for custom pool activity
+ *
+ * @author Dzmitry Piatrovich
+ */
 @Aspect
+@PropertySource("classpath:logger.properties")
 public class ConnectionPoolObserver {
+    /** Pool activity logger */
     private static Logger logger = Logger.getLogger("pool");
 
-    @Before(value = "@within(javax.annotation.PostConstruct)")       // first way
-    public void observeStartInit(){
-        logger.info("Starting init() method!");
-    }
+    /**
+     * Provides access to property sources
+     */
+    @Autowired
+    private Environment environment;
 
-    @After(value = "@annotation(javax.annotation.PostConstruct)")   // another way
-    //@Pointcut("call( public * com.epam.lab.news.database.jdbc.pool.ConnectionPool.size())")  It's not possible!
-    public void observeFinishInit(){
-        logger.info("Finishing init() method!");
-    }
-
+    /**
+     * Watching pool size
+     *
+     * @param size Number of connections
+     */
     @AfterReturning(pointcut = "execution(* com.epam.lab.news.database.jdbc.pool.ConnectionPool.size())",
                     returning = "size")
     public void checkPoolSize(Integer size){
-        logger.info("After init in pool " + size + " connections.");
+        logger.info(environment.getProperty("info.pool.size") + size);
     }
 
+    /**
+     * Watching taking connections from pool
+     */
     @After("execution(* com.epam.lab.news.database.jdbc.pool.ConnectionPool.getConnection())")
     public void handleTakingConnection(){
-        logger.info("Connection taken from pool.");
+        logger.info(environment.getProperty("info.pool.taken.connection"));
     }
 
-    @After("execution(* com.epam.lab.news.database.jdbc.pool.ConnectionPool.returnConnection())")
+    /**
+     * Watching putting connections to pool
+     */
+    @After("execution(* com.epam.lab.news.database.jdbc.pool.ConnectionPool.returnConnection(..))")
     public void handleReturningConnection(){
-        logger.info("Connection returned to pool.");
+        logger.info(environment.getProperty("info.pool.returned.connection"));
     }
 
 }

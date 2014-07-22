@@ -90,10 +90,10 @@
                         </label>
                     </div>
                     <div class="col-md-9 col-md-offset-3 right-position">
-                        <input type="submit" class="btn btn-default"
+                        <input id="saveBtn" type="submit" class="btn btn-default"
                                value="<spring:message code="page.body.button.save"/>">
-                        <input type="button" class="btn btn-default"
-                               onclick="window.location.href='/${pageContext.request.contextPath}'"
+                        <input id="cancelBtn" type="button" class="btn btn-default"
+                               onclick="window.location.href='${pageContext.request.contextPath}'"
                                value="<spring:message code="page.body.button.cancel"/>">
                     </div>
                 </form>
