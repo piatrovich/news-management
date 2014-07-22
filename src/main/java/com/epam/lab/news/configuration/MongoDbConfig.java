@@ -1,4 +1,4 @@
-package com.epam.lab.news.config;
+package com.epam.lab.news.configuration;
 
 import com.mongodb.Mongo;
 import com.mongodb.MongoClient;
@@ -26,6 +26,7 @@ import org.springframework.data.mongodb.repository.config.EnableMongoRepositorie
 @EnableMongoRepositories(basePackages = "com.epam.lab.news.database.data.repo")
 @PropertySource("classpath:pool/mongo.properties")
 public class MongoDbConfig extends AbstractMongoConfiguration {
+    /** Bean for initializing fields using @Value */
     private @Autowired PropertySourcesPlaceholderConfigurer configurer;
 
     private @Value("${mongo.database}") String database;

@@ -1,7 +1,7 @@
 package com.epam.lab.news.api;
 
-import com.epam.lab.news.config.MongoDbConfig;
-import com.epam.lab.news.config.WebAppConfig;
+import com.epam.lab.news.configuration.ApplicationConfig;
+import com.epam.lab.news.configuration.MongoDbConfig;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.test.context.ContextConfiguration;
@@ -11,7 +11,7 @@ import org.springframework.test.context.web.WebAppConfiguration;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @WebAppConfiguration
-@ContextConfiguration(classes = {WebAppConfig.class, MongoDbConfig.class},
+@ContextConfiguration(classes = {ApplicationConfig.class, MongoDbConfig.class},
         loader = AnnotationConfigContextLoader.class)
 public class APITest {
 

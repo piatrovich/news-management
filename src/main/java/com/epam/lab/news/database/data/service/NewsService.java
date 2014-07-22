@@ -43,6 +43,11 @@ public class NewsService {
         return repository.findOne(id);
     }
 
+    /**
+     *
+     *
+     * @param article
+     */
     public void save(Article article) {
         Counter counter = counterRepository.findOne("aid");
         article.setId(counter.getNextId());
@@ -51,11 +56,21 @@ public class NewsService {
         counterRepository.save(counter);
     }
 
+    /**
+     *
+     *
+     * @param article
+     */
     public void update(Article article) {
         article.setDate(new Date());
         repository.save(article);
     }
 
+    /**
+     *
+     *
+     * @param id
+     */
     public void delete(Long id) {
         repository.delete(id);
     }

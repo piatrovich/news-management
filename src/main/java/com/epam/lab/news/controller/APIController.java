@@ -3,7 +3,13 @@ package com.epam.lab.news.controller;
 import com.epam.lab.news.bean.Article;
 import com.epam.lab.news.database.data.service.NewsService;
 import com.epam.lab.news.database.jdbc.dao.NewsDAO;
+import com.epam.lab.news.database.jdbc.dao.service.DAOService;
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.config.PropertyPlaceholderConfigurer;
+import org.springframework.context.annotation.PropertySource;
+import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
+import org.springframework.core.env.Environment;
 import org.springframework.web.bind.annotation.*;
 
 /**
@@ -13,12 +19,20 @@ import org.springframework.web.bind.annotation.*;
  */
 @RestController
 @RequestMapping("/api/")
+@PropertySource("classpath:logger.properties")
 public class APIController {
+    /** Error logger */
+    Logger logger = Logger.getLogger("errors");
+
     /** Service for working with data using repositories */
-    //private @Autowired NewsService newsService;
+    private @Autowired NewsService newsService;
 
     /** Service for working with data custom dao */
-    private @Autowired NewsDAO newsService;
+    //@Autowired
+    //private DAOService newsService;
+
+    @Autowired
+    Environment environment;
 
     /**
      * Returns all articles as JSONs

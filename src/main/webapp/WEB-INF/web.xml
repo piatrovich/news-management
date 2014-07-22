@@ -14,7 +14,7 @@
         </init-param>
         <init-param>
             <param-name>contextConfigLocation</param-name>
-            <param-value>com.epam.lab.news.config</param-value>
+            <param-value>com.epam.lab.news.configuration</param-value>
         </init-param>
         <load-on-startup>1</load-on-startup>
 	</servlet>
