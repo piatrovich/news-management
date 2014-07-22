@@ -4,43 +4,42 @@ import com.epam.lab.news.bean.Article;
 import com.epam.lab.news.database.data.bean.Counter;
 import com.epam.lab.news.database.jdbc.dao.CounterDAO;
 import com.epam.lab.news.database.jdbc.dao.NewsDAO;
-import com.epam.lab.news.database.jdbc.pool.ConnectionPool;
+import com.epam.lab.news.database.service.INewsService;
+import com.epam.lab.news.exception.bean.ServiceException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
 
-@Service
-public class DAOService {
-    /** Connection pool */
+@Service("daoService")
+public class DAOService implements INewsService {
+
     @Autowired
-    protected ConnectionPool pool;
+    private NewsDAO newsRepository;
 
-    public Iterable<Article> getAll() {
-        NewsDAO dao = new NewsDAO(pool);
-        return dao.getAll();
+    @Autowired
+    private CounterDAO counterRepository;
+
+    public Iterable<Article> getAll() throws ServiceException {
+        return newsRepository.getAll();
     }
 
-    public Article get(Long id) {
-        NewsDAO dao = new NewsDAO(pool);
-        return dao.get(id);
+    public Article get(Long id) throws ServiceException{
+        return newsRepository.get(id);
     }
 
-    public void save(Article article) {
-        NewsDAO dao = new NewsDAO(pool);
-        CounterDAO counterDAO = new CounterDAO(pool);
-        Counter counter = counterDAO.get();
+    public void save(Article article) throws ServiceException{
+        Counter counter = counterRepository.get();
         article.setDate(new Date());
         article.setId(counter.getNextId());
-        dao.save(article);
+        newsRepository.save(article);
+    }
+
+    public void update(Article article) throws ServiceException{
 
     }
 
-    public void update(Article article) {
-
-    }
-
-    public void delete(Long id) {
+    public void delete(Long id) throws ServiceException{
 
     }
 

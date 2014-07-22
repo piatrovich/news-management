@@ -1,19 +1,28 @@
 package com.epam.lab.news.database.jdbc.dao;
 
 import com.epam.lab.news.database.jdbc.pool.ConnectionPool;
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.PropertySource;
+import org.springframework.core.env.Environment;
 
 import java.sql.*;
 
-public class AbstractDAO {
+@PropertySource("classpath:logger.properties")
+public abstract class AbstractDAO {
+    /** Logger for dao layer */
+    protected static Logger logger = Logger.getLogger("dao");
+
     /** Connection pool */
+    @Autowired
     protected ConnectionPool pool;
 
-    public AbstractDAO(ConnectionPool pool){
-        this.pool = pool;
-    }
+    /**
+     * Provides access to property sources
+     */
+    @Autowired
+    protected Environment env;
 
-    protected Connection connection;
     protected Statement statement;
     protected ResultSet resultSet;
     protected PreparedStatement preparedStatement;
