@@ -6,6 +6,11 @@ import org.springframework.validation.Errors;
 import org.springframework.validation.ValidationUtils;
 import org.springframework.validation.Validator;
 
+/**
+ * Minimal validator implementation
+ *
+ * @author Dzmitry Piatrovich
+ */
 @Component
 public class ArticleValidator implements Validator {
 
@@ -20,6 +25,12 @@ public class ArticleValidator implements Validator {
         return Article.class.isAssignableFrom(aClass);
     }
 
+    /**
+     * Checks only "must have" field values
+     *
+     * @param object Target object
+     * @param errors Resulting errors
+     */
     @Override
     public void validate(Object object, Errors errors) {
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "title", "title.empty", "Empty title");
