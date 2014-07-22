@@ -4,23 +4,26 @@ import com.epam.lab.news.bean.Article;
 import com.epam.lab.news.database.data.bean.Counter;
 import com.epam.lab.news.database.data.repo.CounterRepository;
 import com.epam.lab.news.database.data.repo.NewsRepository;
+import com.epam.lab.news.database.service.INewsService;
+import com.epam.lab.news.exception.bean.ServiceException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
 
 /**
- * Defines an application layer between controller and repositories.
+ * Implementation of logic layer using Spring Data
  *
  * @author Dzmitry Piatrovich
  * @since 0.1.0.alpha
  */
-@Service
-public class NewsService {
+@Service("newsService")
+public class NewsService implements INewsService {
     /** Wiring service with repository for working with Article instances */
     @Autowired
     private NewsRepository repository;
 
+    /** Wiring service with repository for working with Counter documents */
     @Autowired
     private CounterRepository counterRepository;
 
@@ -29,7 +32,7 @@ public class NewsService {
      *
      * @return Collection of articles
      */
-    public Iterable<Article> getAll() {
+    public Iterable<Article> getAll() throws ServiceException{
         return repository.findAll();
     }
 
@@ -39,16 +42,16 @@ public class NewsService {
      * @param id Article id
      * @return Article instance
      */
-    public Article get(Long id) {
+    public Article get(Long id) throws ServiceException{
         return repository.findOne(id);
     }
 
     /**
+     * Saves article
      *
-     *
-     * @param article
+     * @param article Article object
      */
-    public void save(Article article) {
+    public void save(Article article) throws ServiceException{
         Counter counter = counterRepository.findOne("aid");
         article.setId(counter.getNextId());
         article.setDate(new Date());
@@ -57,21 +60,21 @@ public class NewsService {
     }
 
     /**
+     * Updates article
      *
-     *
-     * @param article
+     * @param article Article object
      */
-    public void update(Article article) {
+    public void update(Article article) throws ServiceException{
         article.setDate(new Date());
         repository.save(article);
     }
 
     /**
+     * Deletes article if it exist
      *
-     *
-     * @param id
+     * @param id Article id
      */
-    public void delete(Long id) {
+    public void delete(Long id) throws ServiceException{
         repository.delete(id);
     }
 
