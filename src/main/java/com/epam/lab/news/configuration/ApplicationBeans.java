@@ -4,9 +4,11 @@ import com.epam.lab.news.aop.interceptor.ServiceExceptionInterceptor;
 import com.epam.lab.news.aop.logging.ApplicationAPILogger;
 import com.epam.lab.news.aop.observer.ConnectionPoolObserver;
 import com.epam.lab.news.database.jdbc.pool.ConnectionPool;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
 import org.springframework.context.support.ReloadableResourceBundleMessageSource;
 import org.springframework.web.servlet.LocaleResolver;
@@ -20,7 +22,22 @@ import java.util.Locale;
  * Contains configured application beans.
  */
 @Configuration
+@PropertySource("classpath:application.properties")
 public class ApplicationBeans {
+    @Value("${resolver.prefix}")
+    private String resolverPrefix;
+
+    @Value("${resolver.suffix}")
+    private String resolverSuffix;
+
+    @Value("${default.locale}")
+    private String defaultLocale;
+
+    @Value("${interceptor.name}")
+    private String interceptorName;
+
+    @Value("${cache.time}")
+    private Integer cacheTime;
 
     /**
      * Helps to controller in search required views
@@ -30,32 +47,32 @@ public class ApplicationBeans {
     @Bean
     public InternalResourceViewResolver getInternalResourceViewResolver() {
         InternalResourceViewResolver resolver = new InternalResourceViewResolver();
-        resolver.setPrefix("/WEB-INF/pages/");
-        resolver.setSuffix(".jsp");
+        resolver.setPrefix(resolverPrefix);
+        resolver.setSuffix(resolverSuffix);
         return resolver;
     }
 
     /**
-     * Configured
+     * Returns configured resolver. Default language: EN
      *
-     * @return
+     * @return Resolver for locales
      */
     @Bean
     public LocaleResolver localeResolver() {
         SessionLocaleResolver localeResolver = new SessionLocaleResolver();
-        localeResolver.setDefaultLocale(new Locale("en"));
+        localeResolver.setDefaultLocale(new Locale(defaultLocale));
         return localeResolver;
     }
 
     /**
-     * Locale interceptor
+     * Returns configured by defaults locale interceptor
      *
-     * @return
+     * @return Interceptor for changing locale
      */
     @Bean
     public LocaleChangeInterceptor localeChangeInterceptor() {
         LocaleChangeInterceptor changeInterceptor = new LocaleChangeInterceptor();
-        changeInterceptor.setParamName("lang");
+        changeInterceptor.setParamName(interceptorName);
         return changeInterceptor;
     }
 
@@ -67,7 +84,7 @@ public class ApplicationBeans {
     @Bean
     public MessageSource messageSource() {
         ReloadableResourceBundleMessageSource messageSource = new ReloadableResourceBundleMessageSource();
-        messageSource.setCacheSeconds(10);
+        messageSource.setCacheSeconds(cacheTime);
         messageSource.setBasename("classpath:interface");
         return messageSource;
     }
