@@ -5,7 +5,7 @@ package com.epam.lab.news.exception.bean;
  *
  * @author Dzmitry Piatrovich
  */
-public class ServiceException extends Exception {
+public class ServiceException extends InfrastructureException {
 
     /**
      * Constructor
