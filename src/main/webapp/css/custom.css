@@ -35,3 +35,8 @@ body {
 .right-position {
     text-align: right;
 }
+
+.center {
+    text-align: center;
+    margin: auto;
+}
