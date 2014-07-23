@@ -1,4 +1,4 @@
-package com.epam.lab.news.aop.logging;
+package com.epam.lab.news.aspect;
 
 import com.epam.lab.news.bean.Article;
 import com.fasterxml.jackson.core.JsonProcessingException;

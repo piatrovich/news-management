@@ -1,4 +1,4 @@
-package com.epam.lab.news.aop.observer;
+package com.epam.lab.news.aspect;
 
 import org.apache.log4j.Logger;
 import org.aspectj.lang.annotation.*;

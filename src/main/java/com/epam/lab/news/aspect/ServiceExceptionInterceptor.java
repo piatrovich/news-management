@@ -1,6 +1,5 @@
-package com.epam.lab.news.aop.interceptor;
+package com.epam.lab.news.aspect;
 
-import com.epam.lab.news.exception.bean.DAOException;
 import com.epam.lab.news.exception.bean.ServiceException;
 import org.apache.log4j.Logger;
 import org.aspectj.lang.annotation.AfterThrowing;

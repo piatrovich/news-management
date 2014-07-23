@@ -1,8 +1,8 @@
 package com.epam.lab.news.configuration;
 
-import com.epam.lab.news.aop.interceptor.ServiceExceptionInterceptor;
-import com.epam.lab.news.aop.logging.ApplicationAPILogger;
-import com.epam.lab.news.aop.observer.ConnectionPoolObserver;
+import com.epam.lab.news.aspect.ServiceExceptionInterceptor;
+import com.epam.lab.news.aspect.ApplicationAPILogger;
+import com.epam.lab.news.aspect.ConnectionPoolObserver;
 import com.epam.lab.news.database.jdbc.pool.ConnectionPool;
 import com.epam.lab.news.validation.ArticleValidator;
 import org.springframework.beans.factory.annotation.Value;
