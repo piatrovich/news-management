@@ -13,4 +13,12 @@ public class CounterConstants {
     /** Keeps query updating articles counter */
     public static final String SQL_UPDATE_ARTICLE_COUNTER =
             "UPDATE counters SET count = ? WHERE _id = 'aid'";
+
+    /** Keeps query updating articles counter */
+    public static final String MSG_GET_ARTICLE_COUNTER =
+            "An error has occurred when trying to find article counter.";
+
+    /** Keeps query updating articles counter */
+    public static final String MSG_UPDATE_ARTICLE_COUNTER =
+            "An error has occurred when trying to update article counter.";
 }
