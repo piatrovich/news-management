@@ -12,5 +12,5 @@ public class CounterConstants {
 
     /** Keeps query updating articles counter */
     public static final String SQL_UPDATE_ARTICLE_COUNTER =
-            "UPDATE counters SET count = ? WHERE _id = ?";
+            "UPDATE counters SET count = ? WHERE _id = 'aid'";
 }
