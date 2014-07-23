@@ -2,6 +2,7 @@ package com.epam.lab.news.database.jdbc.dao;
 
 import com.epam.lab.news.bean.Article;
 import com.epam.lab.news.database.jdbc.dao.constants.NewsConstants;
+import com.epam.lab.news.exception.bean.DAOException;
 import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Repository;
@@ -27,7 +28,7 @@ public class NewsDAO extends AbstractDAO {
      * @param id Unique article ID
      * @return Article object
      */
-    public Article get(Long id){
+    public Article get(Long id) throws DAOException{
         Article article = new Article();
         Connection connection = pool.getConnection();
         try {
@@ -43,6 +44,7 @@ public class NewsDAO extends AbstractDAO {
             }
         } catch (SQLException e) {
             logger.error(env.getProperty("error.dao.get.article") + id, e);
+            throw new DAOException(NewsConstants.MSG_ERROR_FIND_ARTICLE + id, e);
         } finally {
             pool.returnConnection(connection);
         }
@@ -54,7 +56,7 @@ public class NewsDAO extends AbstractDAO {
      *
      * @return List of articles
      */
-    public Iterable<Article> getAll(){
+    public Iterable<Article> getAll() throws DAOException{
         List<Article> articles = new ArrayList<Article>();
         Connection connection = pool.getConnection();
         try {
@@ -69,8 +71,9 @@ public class NewsDAO extends AbstractDAO {
                 article.setDate(resultSet.getDate(5));
                 articles.add(article);
             }
-        } catch (SQLException e) {
+        } catch (SQLException e){
             logger.error(env.getProperty("error.dao.get.all.articles"), e);
+            throw new DAOException(NewsConstants.MSG_ERROR_FIND_ALL_ARTICLES, e);
         } finally {
             pool.returnConnection(connection);
         }
@@ -82,7 +85,7 @@ public class NewsDAO extends AbstractDAO {
      *
      * @param article Article object
      */
-    public void save(Article article){
+    public void save(Article article) throws DAOException{
         Connection connection = pool.getConnection();
         try {
             preparedStatement = connection.prepareStatement(NewsConstants.SQL_SAVE_NEWS);
@@ -95,6 +98,7 @@ public class NewsDAO extends AbstractDAO {
             preparedStatement.execute();
         } catch (SQLException e) {
             logger.error(env.getProperty("error.dao.save.article"), e);
+            throw new DAOException(NewsConstants.MSG_ERROR_CREATE_ARTICLE + article.toString(), e);
         } finally {
             pool.returnConnection(connection);
         }
@@ -105,7 +109,7 @@ public class NewsDAO extends AbstractDAO {
      *
      * @param article Article object
      */
-    public void update(Article article){
+    public void update(Article article) throws DAOException{
         Connection connection = pool.getConnection();
         try {
             preparedStatement = connection.prepareStatement(NewsConstants.SQL_UPDATE_NEWS);
@@ -117,6 +121,7 @@ public class NewsDAO extends AbstractDAO {
             preparedStatement.execute();
         } catch (SQLException e) {
             logger.error(env.getProperty("error.dao.update.article"), e);
+            throw new DAOException(NewsConstants.MSG_ERROR_UPDATE_ARTICLE + article.toString(), e);
         } finally {
             pool.returnConnection(connection);
         }
@@ -127,14 +132,15 @@ public class NewsDAO extends AbstractDAO {
      *
      * @param id Unique article ID
      */
-    public void delete(Long id){
+    public void delete(Long id) throws DAOException{
         Connection connection = pool.getConnection();
         try {
             preparedStatement = connection.prepareStatement(NewsConstants.SQL_DELETE_NEWS);
             preparedStatement.setLong(1, id);
             preparedStatement.execute();
         } catch (SQLException e) {
-            logger.error("error.dao.delete.article", e);
+            logger.error(env.getProperty("error.dao.delete.article"), e);
+            throw new DAOException(NewsConstants.MSG_ERROR_DELETE_ARTICLE + id, e);
         } finally {
             pool.returnConnection(connection);
         }
