@@ -30,17 +30,20 @@ public class DAOService implements INewsService {
 
     public void save(Article article) throws ServiceException{
         Counter counter = counterRepository.get();
-        article.setDate(new Date());
         article.setId(counter.getNextId());
+        counterRepository.update(counter);
+        article.setDate(new Date());
         newsRepository.save(article);
+
     }
 
     public void update(Article article) throws ServiceException{
-
+        article.setDate(new Date());
+        newsRepository.update(article);
     }
 
     public void delete(Long id) throws ServiceException{
-
+        newsRepository.delete(id);
     }
 
 }

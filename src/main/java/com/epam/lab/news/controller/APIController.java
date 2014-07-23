@@ -1,11 +1,9 @@
 package com.epam.lab.news.controller;
 
 import com.epam.lab.news.bean.Article;
-import com.epam.lab.news.database.data.service.NewsService;
-import com.epam.lab.news.database.jdbc.dao.NewsDAO;
-import com.epam.lab.news.database.jdbc.dao.service.DAOService;
 import com.epam.lab.news.database.service.INewsService;
-import com.epam.lab.news.exception.bean.ServiceException;
+import com.epam.lab.news.validation.ArticleValidator;
+import com.epam.lab.news.validation.ValidationResult;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -27,11 +25,14 @@ public class APIController {
 
     /** Service for working with data using repositories */
     @Autowired
-    @Qualifier("daoService")
+    @Qualifier("newsService")
     INewsService newsService;
 
     @Autowired
     Environment environment;
+
+    @Autowired
+    ArticleValidator validator;
 
     /**
      * Returns all articles as JSONs
@@ -60,8 +61,12 @@ public class APIController {
      * @param article Parsed article object from JSON request body
      */
     @RequestMapping(value = "/add", method = RequestMethod.POST, headers = "Accept=application/json")
-    public void newArticle(@RequestBody Article article) throws Exception{
-        newsService.save(article);
+    public @ResponseBody ValidationResult newArticle(@RequestBody Article article) throws Exception{
+        ValidationResult result = validator.validate(article);
+        if(result.isStatus()){
+            newsService.save(article);
+        }
+        return result;
     }
 
     /**
@@ -70,8 +75,12 @@ public class APIController {
      * @param article  Parsed article object from JSON request body
      */
     @RequestMapping(value = "/update", method = RequestMethod.POST, headers = "Accept=application/json")
-    public void updateArticle(@RequestBody Article article) throws Exception{
-        newsService.update(article);
+    public @ResponseBody ValidationResult updateArticle(@RequestBody Article article) throws Exception{
+        ValidationResult result = validator.validate(article);
+        if(result.isStatus()){
+            newsService.update(article);
+        }
+        return result;
     }
 
     /**
@@ -81,9 +90,7 @@ public class APIController {
      */
     @RequestMapping(value = "/delete/{id}", method = RequestMethod.DELETE, headers = "Accept=application/json")
     public void deleteArticle(@PathVariable Long id) throws Exception{
-
         newsService.delete(id);
-
     }
 
 }

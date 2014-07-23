@@ -13,7 +13,7 @@ function loadAllNews() {
                 });
                 addIdToHref(article, ["#article-view", "#article-edit", "#article-delete"], value["id"]);
                 $(article).find("#article-delete").click(function(event){
-                    deleteArticle(value["id"], event, this);
+                    deleteArticle(event, this);
                 });
                 $(article).find("#article-title").text(value["title"]);
                 changeId(article, "#article-title", value["id"]);
@@ -44,6 +44,9 @@ function loadNewsForView() {
             $("#article-description").text(data["description"]);
             $("#article-text").text(data["text"]);
             addIdToHref($("#sidebar"), ["#article-edit", "#article-delete"], data["id"]);
+            $(document).find("#article-delete").click(function(event){
+                deleteArticle(event, this);
+            });
         },
         error: function (jqXHR, textStatus, errorThrown) {
             alert(jqXHR.status + " Error has occurred");
@@ -64,6 +67,9 @@ function loadNewsForEdit() {
             $("#inputShort").text(data["description"]);
             $("#inputLong").text(data["text"]);
             addIdToHref($("#sidebar"), ["#article-delete"], data["id"]);
+            $(document).find("#article-delete").click(function(event){
+                deleteArticle(event, this);
+            });
             editingArticle();
         },
         error: function(jqXHR, textStatus, errorThrown) {
@@ -111,16 +117,14 @@ function addIdToHref(article, items, id) {
     });
 }
 
-function deleteArticle(id, event, element){
+function deleteArticle(event, element){
+    var id = element.href.substring(45, element.href.length);
     if(confirm("Do you want delete an article?")){
         $.ajax({
             type: "DELETE",
             url: "http://localhost:8080/news-management/api/delete/" + id,
             success: function (data) {
-
-            },
-            error: function (jqXHR, textStatus, errorThrown){
-
+                alert(data);
             }
         });
         element.href = "http://localhost:8080/news-management";
@@ -130,7 +134,8 @@ function deleteArticle(id, event, element){
 }
 
 function addingArticle(){
-    $(document).find("#createBtn").click(function(){
+    $(document).find("#createBtn").click(function(event){
+        event.preventDefault();
         var article = new Object();
         article.title = $(document).find("#inputTitle").val();
         article.description = $(document).find("#inputShort").val();
@@ -139,12 +144,12 @@ function addingArticle(){
             type: "POST",
             url: "http://localhost:8080/news-management/api/add",
             contentType : 'application/json; charset=utf-8',
-            data: JSON.stringify(article),
-            success : function(data) {
-
-            },
-            error : function(jqXHR, textStatus, errorThrown) {
-                alert(textStatus);
+            data: JSON.stringify(article)
+        }).done(function(data){
+            if(data["status"] === false) {
+                setErrors(data);
+            } else {
+                window.location.href = "/news-management";
             }
         });
     });
@@ -158,23 +163,30 @@ function editingArticle(){
         article.title = $(document).find("#inputTitle").val();
         article.description = $(document).find("#inputShort").val();
         article.text = $(document).find("#inputLong").val();
-        alert(JSON.stringify(article));
         $.ajax({
             type: "POST",
             url: "http://localhost:8080/news-management/api/update",
             contentType : 'application/json; charset=utf-8',
-            data: JSON.stringify(article),
-            success : function(data) {
-
-            },
-            error : function(jqXHR, textStatus, errorThrown) {
-
+            data: JSON.stringify(article)
+        }).done(function(data){
+            if(data["status"] === false) {
+                setErrors(data);
+            } else {
+                window.location.href = "/news-management";
             }
         });
     });
 }
 
 
-function validateArticle(article){
-
+function setErrors(data){
+    $.each(data["result"], function(k,v){
+        if(k === "title.empty"){
+            $(document).find("#title-danger").text(v);
+        } else if (k === "description.empty"){
+            $(document).find("#description-danger").text(v);
+        } else if (k === "text.empty"){
+            $(document).find("#text-danger").text(v);
+        }
+    });
 }

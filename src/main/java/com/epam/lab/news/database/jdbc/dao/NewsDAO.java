@@ -109,10 +109,11 @@ public class NewsDAO extends AbstractDAO {
         Connection connection = pool.getConnection();
         try {
             preparedStatement = connection.prepareStatement(NewsConstants.SQL_UPDATE_NEWS);
-            preparedStatement.setBytes(3, article.getTitle().getBytes());
-            preparedStatement.setBytes(4, article.getDescription().getBytes());
-            preparedStatement.setBytes(5, article.getText().getBytes());
-            preparedStatement.setDate(6, new Date(article.getDate().getTime()));
+            preparedStatement.setString(1, article.getTitle());
+            preparedStatement.setString(2, article.getDescription());
+            preparedStatement.setString(3, article.getText());
+            preparedStatement.setDate(4, new Date(article.getDate().getTime()));
+            preparedStatement.setLong(5, article.getId());
             preparedStatement.execute();
         } catch (SQLException e) {
             logger.error(env.getProperty("error.dao.update.article"), e);

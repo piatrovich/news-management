@@ -51,7 +51,6 @@ public class CounterDAO extends AbstractDAO {
         try {
             preparedStatement = connection.prepareStatement(CounterConstants.SQL_UPDATE_ARTICLE_COUNTER);
             preparedStatement.setLong(1, counter.getCount());
-            preparedStatement.setBytes(2, counter.getId().getBytes());
             preparedStatement.execute();
         } catch (SQLException e) {
             logger.error(env.getProperty("error.dao.update.counter"), e);
