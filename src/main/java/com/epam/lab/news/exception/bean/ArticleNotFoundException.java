@@ -8,6 +8,12 @@ package com.epam.lab.news.exception.bean;
  */
 public class ArticleNotFoundException extends DAOException {
 
+    /**
+     * Constructor
+     *
+     * @param message Exception message
+     * @param cause
+     */
     public ArticleNotFoundException(String message, Throwable cause) {
         super(message, cause);
     }
