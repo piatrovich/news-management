@@ -70,8 +70,6 @@ public class Article {
                 .append(description)
                 .append("text = ")
                 .append(text)
-                .append("date = ")
-                .append(date.toString())
                 .toString();
     }
 
