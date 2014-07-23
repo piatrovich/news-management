@@ -34,11 +34,26 @@ public class ArticleValidator implements Validator {
      */
     @Override
     public void validate(Object object, Errors errors) {
-        ValidationUtils.rejectIfEmptyOrWhitespace(errors, "title", "title.empty", "Empty title");
-        ValidationUtils.rejectIfEmptyOrWhitespace(errors, "description", "description.empty", "Empty description");
-        ValidationUtils.rejectIfEmptyOrWhitespace(errors, "text", "text.empty", "Empty text");
+        ValidationUtils.rejectIfEmptyOrWhitespace(errors,
+                ValidationConstants.FIELD_TITLE,
+                ValidationConstants.CODE_TITLE_EMPTY,
+                ValidationConstants.MSG_TITLE_EMPTY);
+        ValidationUtils.rejectIfEmptyOrWhitespace(errors,
+                ValidationConstants.FIELD_DESC,
+                ValidationConstants.CODE_DESC_EMPTY,
+                ValidationConstants.MSG_DESC_EMPTY);
+        ValidationUtils.rejectIfEmptyOrWhitespace(errors,
+                ValidationConstants.FIELD_TEXT,
+                ValidationConstants.CODE_TEXT_EMPTY,
+                ValidationConstants.MSG_TEXT_EMPTY);
     }
 
+    /**
+     * Return object which contains status and errors if <code>status == false</code>
+     *
+     * @param article Article which need to be validated
+     * @return ValidationResult object
+     */
     public ValidationResult validate(Article article){
         DataBinder binder = new DataBinder(article);
         binder.setValidator(this);
