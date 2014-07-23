@@ -1,14 +1,17 @@
 package com.epam.lab.news.configuration;
 
-import com.epam.lab.news.aop.interceptor.ServiceExceptionInterceptor;
-import com.epam.lab.news.aop.logging.ApplicationAPILogger;
-import com.epam.lab.news.aop.observer.ConnectionPoolObserver;
+import com.epam.lab.news.aspect.ServiceExceptionInterceptor;
+import com.epam.lab.news.aspect.ApplicationAPILogger;
+import com.epam.lab.news.aspect.ConnectionPoolObserver;
 import com.epam.lab.news.database.jdbc.pool.ConnectionPool;
+import com.epam.lab.news.validation.ArticleValidator;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
+import org.springframework.context.annotation.Scope;
 import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
 import org.springframework.context.support.ReloadableResourceBundleMessageSource;
 import org.springframework.web.servlet.LocaleResolver;
@@ -134,9 +137,20 @@ public class ApplicationBeans {
      *
      * @return Connection pool
      */
-    @Bean(initMethod = "init")
+    @Bean
     public ConnectionPool connectionPool(){
         return new ConnectionPool();
+    }
+
+    /**
+     * Validator for articles
+     *
+     * @return Validator object
+     */
+    @Bean
+    @Scope(BeanDefinition.SCOPE_PROTOTYPE)
+    public ArticleValidator validator(){
+        return new ArticleValidator();
     }
 
 }

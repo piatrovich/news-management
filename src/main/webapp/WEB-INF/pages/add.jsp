@@ -57,9 +57,7 @@
                         </div>
                     </div>
                     <div class="col-md-9 col-md-offset-3">
-                        <label class="text-danger">
-
-                        </label>
+                        <label id="title-danger" class="text-danger"></label>
                     </div>
                     <div class="form-group">
                         <label for="inputShort" class="col-md-3 control-label">
@@ -70,9 +68,7 @@
                         </div>
                     </div>
                     <div class="col-md-9 col-md-offset-3">
-                        <label class="text-danger">
-
-                        </label>
+                        <label id="description-danger" class="text-danger"></label>
                     </div>
                     <div class="form-group">
                         <label for="inputLong" class="col-md-3 control-label">
@@ -83,14 +79,11 @@
                         </div>
                     </div>
                     <div class="col-md-9 col-md-offset-3">
-                        <label class="text-danger">
-
-                        </label>
+                        <label id="text-danger" class="text-danger"></label>
                     </div>
                     <div class="col-md-9 col-md-offset-3 right-position">
                         <input id="createBtn" type="button" class="btn btn-default"
-                               value="<spring:message code="page.body.button.save"/>"
-                               onclick="window.location.href = '${pageContext.request.contextPath}'">
+                               value="<spring:message code="page.body.button.save"/>">
                         <input id="delBtn" type="button" class="btn btn-default"
                                value="<spring:message code="page.body.button.cancel"/>"
                                onclick="window.location.href = '${pageContext.request.contextPath}'">

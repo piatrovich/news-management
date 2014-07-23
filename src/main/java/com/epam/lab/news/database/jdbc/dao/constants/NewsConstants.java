@@ -25,4 +25,24 @@ public class NewsConstants {
     /** Keeps query for deleting existing article */
     public static final String SQL_DELETE_NEWS =
             "DELETE FROM articles WHERE _id = ?";
+
+    /** Keeps message if article can not be deleted */
+    public static final String MSG_ERROR_DELETE_ARTICLE =
+            "An error has occurred when trying to delete article:";
+
+    /** Keeps message if article can not be updated */
+    public static final String MSG_ERROR_UPDATE_ARTICLE =
+            "An error has occurred when trying to update article:";
+
+    /** Keeps message if article can not be created */
+    public static final String MSG_ERROR_CREATE_ARTICLE =
+            "An error has occurred when trying to create article:";
+
+    /** Keeps message if article can not be found */
+    public static final String MSG_ERROR_FIND_ARTICLE =
+            "An error has occurred when trying to find article:";
+
+    /** Keeps message if can not return all articles */
+    public static final String MSG_ERROR_FIND_ALL_ARTICLES =
+            "An error has occurred when trying to find all articles.";
 }

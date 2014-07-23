@@ -8,6 +8,12 @@ import org.springframework.core.env.Environment;
 
 import java.sql.*;
 
+/**
+ * Defines abstract class for DAO classes.<br />
+ * Provides access to connection pool and dao logger.
+ *
+ * @author Dzmitry Piatrovich
+ */
 @PropertySource("classpath:logger.properties")
 public abstract class AbstractDAO {
     /** Logger for dao layer */
@@ -23,8 +29,25 @@ public abstract class AbstractDAO {
     @Autowired
     protected Environment env;
 
+    /** Keeps statement object */
     protected Statement statement;
+
+    /** Keeps result set object */
     protected ResultSet resultSet;
+
+    /** Keeps prepared statement object */
     protected PreparedStatement preparedStatement;
+
+    protected void close(){
+        if (statement != null){
+            //statement.close();
+        }
+        if (preparedStatement != null){
+            //preparedStatement.close();
+        }
+        if (resultSet != null){
+            //resultSet.close();
+        }
+    }
 
 }

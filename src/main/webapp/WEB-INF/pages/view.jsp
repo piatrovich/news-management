@@ -53,10 +53,10 @@
         <!-- Content -->
         <div class="col-md-9">
                 <div id="article-block" class="row articles">
-                    <div class="col-md-7">
+                    <div class="col-md-9">
                         <h3 id="article-title"></h3>
                     </div>
-                    <div class="col-md-5 date">
+                    <div class="col-md-3 date">
                         <p id="article-date"></p>
                     </div>
                     <div class="col-md-12">

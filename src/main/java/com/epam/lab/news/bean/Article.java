@@ -61,11 +61,16 @@ public class Article {
 
     @Override
     public String toString() {
-        return "Article [ _id = " + id +
-                "title = " + title +
-                "description = " + title +
-                "text = " + title +
-                "date = " + date.toString();
+        return new StringBuilder()
+                .append("Article => [ _id = ")
+                .append(id)
+                .append("title = ")
+                .append(title)
+                .append("description = ")
+                .append(description)
+                .append("text = ")
+                .append(text)
+                .toString();
     }
 
 }

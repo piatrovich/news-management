@@ -3,9 +3,10 @@ package com.epam.lab.news.database.jdbc.pool;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
+import org.springframework.context.annotation.PropertySources;
 import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
+import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
@@ -16,13 +17,20 @@ import java.sql.SQLException;
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
 
-@Configuration
-@PropertySource("classpath:pool/jdbc.properties")
+@Component
+@PropertySources({@PropertySource("classpath:pool/jdbc.properties"),
+                  @PropertySource("classpath:logger.properties")})
 public class ConnectionPool {
+    /** Logger for errors */
     private static Logger logger = Logger.getLogger("errors");
 
+    /** Wiring configurer for initializing fields */
     @Autowired
     PropertySourcesPlaceholderConfigurer configurer;
+
+    /** Wiring environment for access to error messages */
+    @Autowired
+    Environment environment;
 
     private @Value("${jdbc.driver}") String driver;
     private @Value("${jdbc.url}") String url;
@@ -41,6 +49,9 @@ public class ConnectionPool {
         return instance;
     } */
 
+    /**
+     * Initializes connection pool
+     */
     @PostConstruct
     private void init() {
         pool = new ArrayBlockingQueue<Connection>(size);
@@ -50,13 +61,18 @@ public class ConnectionPool {
                 pool.add(DriverManager.getConnection(url));
             }
         } catch (ClassNotFoundException e) {
-            logger.error(" ", e);
+            logger.error(environment.getProperty("error.pool.class.not.found"), e);
         } catch (SQLException e) {
-            logger.error("Error when trying to create a new connection", e);
+            logger.error(environment.getProperty("error.pool.create.connection"), e);
         }
 
     }
 
+    /**
+     * Returns database connection
+     *
+     * @return Connection object
+     */
     public Connection getConnection() {
         Connection connection = null;
         try {
@@ -65,37 +81,50 @@ public class ConnectionPool {
                 connection = DriverManager.getConnection(url);
             }
         } catch (InterruptedException e) {
-            logger.error("Can't take connection from pool.", e);
+            logger.error(environment.getProperty("error.pool.take.connection"), e);
         } catch (SQLException e) {
-            logger.error("Getting connection from DriverManager failed.", e);
+            logger.error(environment.getProperty("error.pool.create.connection"), e);
         }
         size();
         return connection;
     }
 
+    /**
+     * Return connection to pool
+     *
+     * @param connection Used connection
+     */
     public void returnConnection(Connection connection) {
         if(connection != null) {
             try {
                 pool.put(connection);
             } catch (InterruptedException e) {
-                logger.error("Can't put connection to pool.", e);
+                logger.error(environment.getProperty("error.pool.return.connection"), e);
             }
         }
     }
 
+    /**
+     * Closes all connections in pool
+     */
     @PreDestroy
     private void destroy() {
         while (!pool.isEmpty()) {
             try {
                 pool.take().close();
             } catch (SQLException e) {
-                logger.error("Closing connection failed.", e);
+                logger.error(environment.getProperty("error.pool.close.connection"), e);
             } catch (InterruptedException e) {
-                logger.error("Taking connection from pool failed. Pool destroying failed.", e);
+                logger.error(environment.getProperty("error.pool.take.connection"), e);
             }
         }
     }
 
+    /**
+     * Helpful method for checking number of connections
+     *
+     * @return Number of connections
+     */
     public int size() {
         return pool != null ? pool.size() : 0;
     }

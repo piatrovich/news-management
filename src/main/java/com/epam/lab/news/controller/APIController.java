@@ -1,11 +1,10 @@
 package com.epam.lab.news.controller;
 
 import com.epam.lab.news.bean.Article;
-import com.epam.lab.news.database.data.service.NewsService;
-import com.epam.lab.news.database.jdbc.dao.NewsDAO;
-import com.epam.lab.news.database.jdbc.dao.service.DAOService;
 import com.epam.lab.news.database.service.INewsService;
 import com.epam.lab.news.exception.bean.ServiceException;
+import com.epam.lab.news.validation.ArticleValidator;
+import com.epam.lab.news.validation.ValidationResult;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -30,8 +29,13 @@ public class APIController {
     @Qualifier("daoService")
     INewsService newsService;
 
+    /** Wiring environment for access to messages */
     @Autowired
     Environment environment;
+
+    /** Wiring validator for articles */
+    @Autowired
+    ArticleValidator validator;
 
     /**
      * Returns all articles as JSONs
@@ -39,8 +43,14 @@ public class APIController {
      * @return JSON array
      */
     @RequestMapping(value = "/all", method = RequestMethod.GET, headers = "Accept=application/json")
-    public Iterable<Article> getArticles() throws Exception{
-        return newsService.getAll();
+    public Iterable<Article> getArticles() {
+        Iterable<Article> articles = null;
+        try {
+            articles = newsService.getAll();
+        } catch (ServiceException e) {
+            logger.error(environment.getProperty("error.controller.get.all"), e);
+        }
+        return articles;
     }
 
     /**
@@ -50,8 +60,14 @@ public class APIController {
      * @return Article object
      */
     @RequestMapping(value = "/get/{id}", method = RequestMethod.GET, headers = "Accept=application/json")
-    public Article getArticleForView(@PathVariable Long id) throws Exception{
-        return newsService.get(id);
+    public Article getArticleForView(@PathVariable Long id){
+        Article article = null;
+        try {
+            article = newsService.get(id);
+        } catch (ServiceException e) {
+            logger.error(environment.getProperty("error.controller.get"), e);
+        }
+        return article;
     }
 
     /**
@@ -60,8 +76,16 @@ public class APIController {
      * @param article Parsed article object from JSON request body
      */
     @RequestMapping(value = "/add", method = RequestMethod.POST, headers = "Accept=application/json")
-    public void newArticle(@RequestBody Article article) throws Exception{
-        newsService.save(article);
+    public @ResponseBody ValidationResult newArticle(@RequestBody Article article){
+        ValidationResult result = validator.validate(article);
+        if(result.isStatus()){
+            try {
+                newsService.save(article);
+            } catch (ServiceException e) {
+                logger.error(environment.getProperty("error.controller.add"), e);
+            }
+        }
+        return result;
     }
 
     /**
@@ -70,8 +94,16 @@ public class APIController {
      * @param article  Parsed article object from JSON request body
      */
     @RequestMapping(value = "/update", method = RequestMethod.POST, headers = "Accept=application/json")
-    public void updateArticle(@RequestBody Article article) throws Exception{
-        newsService.update(article);
+    public @ResponseBody ValidationResult updateArticle(@RequestBody Article article){
+        ValidationResult result = validator.validate(article);
+        if(result.isStatus()){
+            try {
+                newsService.update(article);
+            } catch (ServiceException e) {
+                logger.error(environment.getProperty("error.controller.update"), e);
+            }
+        }
+        return result;
     }
 
     /**
@@ -80,10 +112,12 @@ public class APIController {
      * @param id Unique article id
      */
     @RequestMapping(value = "/delete/{id}", method = RequestMethod.DELETE, headers = "Accept=application/json")
-    public void deleteArticle(@PathVariable Long id) throws Exception{
-
-        newsService.delete(id);
-
+    public void deleteArticle(@PathVariable Long id){
+        try {
+            newsService.delete(id);
+        } catch (ServiceException e) {
+            logger.error(environment.getProperty("error.controller.delete"), e);
+        }
     }
 
 }

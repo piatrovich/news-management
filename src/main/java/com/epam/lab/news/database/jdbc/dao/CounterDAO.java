@@ -2,6 +2,7 @@ package com.epam.lab.news.database.jdbc.dao;
 
 import com.epam.lab.news.database.data.bean.Counter;
 import com.epam.lab.news.database.jdbc.dao.constants.CounterConstants;
+import com.epam.lab.news.exception.bean.DAOException;
 import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Repository;
@@ -23,7 +24,7 @@ public class CounterDAO extends AbstractDAO {
      *
      * @return Counter object
      */
-    public Counter get(){
+    public Counter get() throws DAOException{
         Counter counter = new Counter();
         Connection connection = pool.getConnection();
         try {
@@ -35,6 +36,7 @@ public class CounterDAO extends AbstractDAO {
             }
         } catch (SQLException e) {
             logger.error(env.getProperty("error.dao.get.counter"), e);
+            throw new DAOException(CounterConstants.MSG_GET_ARTICLE_COUNTER, e);
         } finally {
             pool.returnConnection(connection);
         }
@@ -46,15 +48,15 @@ public class CounterDAO extends AbstractDAO {
      *
      * @param counter Counter object
      */
-    public void update(Counter counter){
+    public void update(Counter counter) throws DAOException{
         Connection connection = pool.getConnection();
         try {
             preparedStatement = connection.prepareStatement(CounterConstants.SQL_UPDATE_ARTICLE_COUNTER);
             preparedStatement.setLong(1, counter.getCount());
-            preparedStatement.setBytes(2, counter.getId().getBytes());
             preparedStatement.execute();
         } catch (SQLException e) {
             logger.error(env.getProperty("error.dao.update.counter"), e);
+            throw new DAOException(CounterConstants.MSG_UPDATE_ARTICLE_COUNTER, e);
         } finally {
             pool.returnConnection(connection);
         }

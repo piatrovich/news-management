@@ -9,7 +9,8 @@ public class Counter {
     private Long count;
 
     public Long getNextId() {
-        return ++count;
+        ++count;
+        return count;
     }
 
     public String getId() {
