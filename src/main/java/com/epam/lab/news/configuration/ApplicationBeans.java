@@ -137,11 +137,16 @@ public class ApplicationBeans {
      *
      * @return Connection pool
      */
-    @Bean(initMethod = "init")
+    @Bean
     public ConnectionPool connectionPool(){
         return new ConnectionPool();
     }
 
+    /**
+     * Validator for articles
+     *
+     * @return Validator object
+     */
     @Bean
     @Scope(BeanDefinition.SCOPE_PROTOTYPE)
     public ArticleValidator validator(){
