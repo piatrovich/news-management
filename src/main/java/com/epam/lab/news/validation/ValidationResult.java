@@ -1,4 +1,4 @@
-package com.epam.lab.news.logic.validation;
+package com.epam.lab.news.validation;
 
 import java.util.Map;
 

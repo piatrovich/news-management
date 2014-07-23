@@ -1,4 +1,4 @@
-package com.epam.lab.news.logic.validation;
+package com.epam.lab.news.validation;
 
 import com.epam.lab.news.bean.Article;
 import org.springframework.stereotype.Component;
