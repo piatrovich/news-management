@@ -2,9 +2,10 @@ package com.epam.lab.news.logic.validation;
 
 import com.epam.lab.news.bean.Article;
 import org.springframework.stereotype.Component;
-import org.springframework.validation.Errors;
-import org.springframework.validation.ValidationUtils;
-import org.springframework.validation.Validator;
+import org.springframework.validation.*;
+
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Minimal validator implementation
@@ -36,6 +37,22 @@ public class ArticleValidator implements Validator {
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "title", "title.empty", "Empty title");
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "description", "description.empty", "Empty description");
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "text", "text.empty", "Empty text");
+    }
+
+    public ValidationResult validate(Article article){
+        DataBinder binder = new DataBinder(article);
+        binder.setValidator(this);
+        binder.validate();
+        if(binder.getBindingResult().hasErrors()) {
+            ValidationResult result = new ValidationResult(false);
+            Map<String, String> values = new HashMap<String, String>();
+            for(FieldError field : binder.getBindingResult().getFieldErrors()) {
+                values.put(field.getCode(),field.getDefaultMessage());
+            }
+            result.setResult(values);
+            return result;
+        }
+        return new ValidationResult(true);
     }
 
 }

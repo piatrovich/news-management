@@ -4,11 +4,14 @@ import com.epam.lab.news.aop.interceptor.ServiceExceptionInterceptor;
 import com.epam.lab.news.aop.logging.ApplicationAPILogger;
 import com.epam.lab.news.aop.observer.ConnectionPoolObserver;
 import com.epam.lab.news.database.jdbc.pool.ConnectionPool;
+import com.epam.lab.news.logic.validation.ArticleValidator;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
+import org.springframework.context.annotation.Scope;
 import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
 import org.springframework.context.support.ReloadableResourceBundleMessageSource;
 import org.springframework.web.servlet.LocaleResolver;
@@ -137,6 +140,12 @@ public class ApplicationBeans {
     @Bean(initMethod = "init")
     public ConnectionPool connectionPool(){
         return new ConnectionPool();
+    }
+
+    @Bean
+    @Scope(BeanDefinition.SCOPE_PROTOTYPE)
+    public ArticleValidator validator(){
+        return new ArticleValidator();
     }
 
 }
