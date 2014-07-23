@@ -1,5 +1,7 @@
 package com.epam.lab.news.aop.interceptor;
 
+import com.epam.lab.news.exception.bean.DAOException;
+import com.epam.lab.news.exception.bean.ServiceException;
 import org.apache.log4j.Logger;
 import org.aspectj.lang.annotation.AfterThrowing;
 import org.aspectj.lang.annotation.Aspect;
@@ -22,7 +24,7 @@ public class ServiceExceptionInterceptor {
      * Provides access to property sources
      */
     @Autowired
-    private Environment environment;
+    private Environment env;
 
     /**
      * Handles repositories exceptions
@@ -31,8 +33,9 @@ public class ServiceExceptionInterceptor {
      */
     @AfterThrowing(pointcut = "execution(* com.epam.lab.news.database.data.service.NewsService.*(..))",
                    throwing = "exception")
-    public void handleNewsServiceExceptions(Throwable exception){
-        logger.error(environment.getProperty("error.news.service.interceptor"), exception);
+    public void handleNewsServiceExceptions(Throwable exception) throws ServiceException {
+        logger.error(env.getProperty("error.news.service.interceptor"), exception);
+        throw new ServiceException(env.getProperty("error.news.service.interceptor"), exception);
     }
 
 }
