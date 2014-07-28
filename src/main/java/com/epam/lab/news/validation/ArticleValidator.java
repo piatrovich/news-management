@@ -39,9 +39,9 @@ public class ArticleValidator implements Validator {
                 ValidationConstants.CODE_TITLE_EMPTY,
                 ValidationConstants.MSG_TITLE_EMPTY);
         ValidationUtils.rejectIfEmptyOrWhitespace(errors,
-                ValidationConstants.FIELD_DESC,
-                ValidationConstants.CODE_DESC_EMPTY,
-                ValidationConstants.MSG_DESC_EMPTY);
+                ValidationConstants.FIELD_DESCRIPTION,
+                ValidationConstants.CODE_DESCRIPTION_EMPTY,
+                ValidationConstants.MSG_DESCRIPTION_EMPTY);
         ValidationUtils.rejectIfEmptyOrWhitespace(errors,
                 ValidationConstants.FIELD_TEXT,
                 ValidationConstants.CODE_TEXT_EMPTY,
