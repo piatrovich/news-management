@@ -25,4 +25,7 @@ public class ServiceConstants {
     /** Error message for 'delete article' action */
     public static final String MSG_DELETE_ACTION =
             "Service error: Can not delete article.";
+
+    /** Keeps id of counter which contains last article id */
+    public static final String COUNTER_NAME_OF_ARTICLE = "aid";
 }

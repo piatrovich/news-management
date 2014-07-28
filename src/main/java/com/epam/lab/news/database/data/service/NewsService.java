@@ -4,7 +4,9 @@ import com.epam.lab.news.bean.Article;
 import com.epam.lab.news.database.data.bean.Counter;
 import com.epam.lab.news.database.data.repo.CounterRepository;
 import com.epam.lab.news.database.data.repo.NewsRepository;
+import com.epam.lab.news.database.jdbc.dao.constants.NewsConstants;
 import com.epam.lab.news.database.service.INewsService;
+import com.epam.lab.news.database.service.ServiceConstants;
 import com.epam.lab.news.exception.bean.ServiceException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -52,7 +54,7 @@ public class NewsService implements INewsService {
      * @param article Article object
      */
     public void save(Article article) throws ServiceException{
-        Counter counter = counterRepository.findOne("aid");
+        Counter counter = counterRepository.findOne(ServiceConstants.COUNTER_NAME_OF_ARTICLE);
         article.setId(counter.getNextId());
         article.setDate(new Date());
         repository.save(article);
