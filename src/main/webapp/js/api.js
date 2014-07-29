@@ -119,17 +119,14 @@ function addIdToHref(article, items, id) {
 
 function deleteArticle(event, element){
     var id = element.href.substring(45, element.href.length);
+    event.preventDefault();
     if(confirm("Do you want delete an article?")){
         $.ajax({
             type: "DELETE",
-            url: "http://localhost:8080/news-management/api/delete/" + id,
-            success: function (data) {
-                alert(data);
-            }
+            url: "http://localhost:8080/news-management/api/delete/" + id
+        }).done(function(){
+            window.location.replace("http://localhost:8080/news-management");
         });
-        element.href = "http://localhost:8080/news-management";
-    } else {
-        event.preventDefault();
     }
 }
 
