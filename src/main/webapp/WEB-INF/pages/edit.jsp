@@ -37,7 +37,7 @@
         <!-- Sidebar-->
         <div class="col-md-3" id="sidebar">
             <div class="list-group">
-                <a href="${pageContext.request.contextPath}" class="list-group-item">
+                <a id="toNewsList" href="${pageContext.request.contextPath}" class="list-group-item">
                     <spring:message code="menu.list.news"/>
                 </a>
                 <a id="article-delete" href="${pageContext.request.contextPath}/delete" class="list-group-item">

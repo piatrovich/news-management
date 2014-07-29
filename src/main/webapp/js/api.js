@@ -201,5 +201,13 @@ function warningsBehavior(data){
             window.history.back();
         }
     });
-
+    $(document).find("#toNewsList").click(function(event){
+        if($(document).find("#inputTitle").val() != data["title"]
+            || $(document).find("#inputShort").val() != data["description"]
+            || $(document).find("#inputLong").val() != data["text"]){
+            if(!confirm($(document).find("#warningDialog").text())){
+                event.preventDefault();
+            }
+        }
+    });
 }
