@@ -97,6 +97,7 @@
         <!-- end Content -->
     </div>
     <c:import url="common/footer.jsp"/>
+    <c:import url="confirmation/deletion.jsp"/>
 </div>
 <script src="<spring:url value="/js/jquery-2.1.1.js"/>"></script>
 <script src="<spring:url value="/js/scripts.js"/>"></script>

@@ -120,7 +120,7 @@ function addIdToHref(article, items, id) {
 function deleteArticle(event, element){
     var id = element.href.substring(45, element.href.length);
     event.preventDefault();
-    if(confirm("Do you want delete an article?")){
+    if(confirm($(document).find("#deleteDialog").text())){
         $.ajax({
             type: "DELETE",
             url: "http://localhost:8080/news-management/api/delete/" + id
