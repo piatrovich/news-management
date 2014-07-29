@@ -71,6 +71,7 @@ function loadNewsForEdit() {
                 deleteArticle(event, this);
             });
             editingArticle();
+            warningsBehavior(data);
         },
         error: function(jqXHR, textStatus, errorThrown) {
             alert(jqXHR.status + " Error has occurred");
@@ -186,4 +187,19 @@ function setErrors(data){
             $(document).find("#text-danger").text(v);
         }
     });
+}
+
+function warningsBehavior(data){
+    $(document).find("#backAction").click(function(event){
+        if($(document).find("#inputTitle").val() != data["title"]
+           || $(document).find("#inputShort").val() != data["description"]
+            || $(document).find("#inputLong").val() != data["text"]){
+            if(confirm($(document).find("#warningDialog").text())){
+                window.history.back();
+            }
+        } else {
+            window.history.back();
+        }
+    });
+
 }

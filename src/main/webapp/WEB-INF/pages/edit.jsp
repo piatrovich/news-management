@@ -22,7 +22,7 @@
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
                     <li>
-                        <a onclick="window.history.back()" href="javascript:void(0)">
+                        <a id="backAction" href="javascript:void(0)" >
                             <spring:message code="menu.back"/>
                         </a>
                     </li>
