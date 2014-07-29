@@ -14,40 +14,47 @@ import javax.annotation.PreDestroy;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
 
 @Component
 @PropertySources({@PropertySource("classpath:pool/jdbc.properties"),
-                  @PropertySource("classpath:logger.properties")})
+        @PropertySource("classpath:logger.properties")})
 public class ConnectionPool {
-    /** Logger for errors */
+    /**
+     * Logger for errors
+     */
     private static Logger logger = Logger.getLogger("errors");
 
-    /** Wiring configurer for initializing fields */
+    /**
+     * Wiring configurer for initializing fields
+     */
     @Autowired
     PropertySourcesPlaceholderConfigurer configurer;
 
-    /** Wiring environment for access to error messages */
+    /**
+     * Wiring environment for access to error messages
+     */
     @Autowired
     Environment environment;
 
-    private @Value("${jdbc.driver}") String driver;
-    private @Value("${jdbc.url}") String url;
-    private @Value("${jdbc.size}") Integer size;
+    @Value("${jdbc.driver}")
+    private String driver;
 
+    @Value("${jdbc.url}")
+    private String url;
+
+    @Value("${jdbc.size}")
+    private Integer size;
+
+    /**
+     * Keeps concurrent queue
+     */
     private BlockingQueue<Connection> pool;
-
-    /* If this class put into another spring application the pool
-     would be own for both applications!?
-     Think about double-check idiom, it should be faster solution
-    private ConnectionPool instance;
-    public synchronized ConnectionPool getInstance() {
-        if(instance == null){
-            instance = new ConnectionPool();
-        }
-        return instance;
-    } */
+    private List<Connection> connections;
 
     /**
      * Initializes connection pool
@@ -55,10 +62,13 @@ public class ConnectionPool {
     @PostConstruct
     private void init() {
         pool = new ArrayBlockingQueue<Connection>(size);
+        connections = new ArrayList<Connection>();
         try {
             Class.forName(driver);
             for (int i = 0; i < size; ++i) {
-                pool.add(DriverManager.getConnection(url));
+                Connection connection = DriverManager.getConnection(url);
+                pool.add(connection);
+                connections.add(connection);
             }
         } catch (ClassNotFoundException e) {
             logger.error(environment.getProperty("error.pool.class.not.found"), e);
@@ -77,15 +87,11 @@ public class ConnectionPool {
         Connection connection = null;
         try {
             connection = pool.take();
-            if (connection == null) {
-                connection = DriverManager.getConnection(url);
-            }
+            connections.remove(connection);
         } catch (InterruptedException e) {
             logger.error(environment.getProperty("error.pool.take.connection"), e);
-        } catch (SQLException e) {
-            logger.error(environment.getProperty("error.pool.create.connection"), e);
         }
-        size();
+        int size = size();
         return connection;
     }
 
@@ -95,12 +101,18 @@ public class ConnectionPool {
      * @param connection Used connection
      */
     public void returnConnection(Connection connection) {
-        if(connection != null) {
-            try {
+        try {
+            if (connection != null) {
                 pool.put(connection);
-            } catch (InterruptedException e) {
-                logger.error(environment.getProperty("error.pool.return.connection"), e);
+            } else {
+                connection = DriverManager.getConnection(url);
+                pool.put(connection);
             }
+            connections.add(connection);
+        } catch (InterruptedException e) {
+            logger.error(environment.getProperty("error.pool.return.connection"), e);
+        } catch (SQLException e) {
+            logger.error(environment.getProperty("error.pool.create.connection"), e);
         }
     }
 
@@ -109,13 +121,12 @@ public class ConnectionPool {
      */
     @PreDestroy
     private void destroy() {
-        while (!pool.isEmpty()) {
+        pool.clear();
+        for (Connection connection : connections) {
             try {
-                pool.take().close();
+                connection.close();
             } catch (SQLException e) {
                 logger.error(environment.getProperty("error.pool.close.connection"), e);
-            } catch (InterruptedException e) {
-                logger.error(environment.getProperty("error.pool.take.connection"), e);
             }
         }
     }
