@@ -22,7 +22,7 @@
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
                     <li>
-                        <a onclick="window.history.back()" href="javascript:void(0)">
+                        <a id="backAction" href="javascript:void(0)" >
                             <spring:message code="menu.back"/>
                         </a>
                     </li>
@@ -37,7 +37,7 @@
         <!-- Sidebar-->
         <div class="col-md-3" id="sidebar">
             <div class="list-group">
-                <a href="${pageContext.request.contextPath}" class="list-group-item">
+                <a id="toNewsList" href="${pageContext.request.contextPath}" class="list-group-item">
                     <spring:message code="menu.list.news"/>
                 </a>
                 <a id="article-delete" href="${pageContext.request.contextPath}/delete" class="list-group-item">
@@ -97,6 +97,7 @@
         <!-- end Content -->
     </div>
     <c:import url="common/footer.jsp"/>
+    <c:import url="confirmation/deletion.jsp"/>
 </div>
 <script src="<spring:url value="/js/jquery-2.1.1.js"/>"></script>
 <script src="<spring:url value="/js/scripts.js"/>"></script>

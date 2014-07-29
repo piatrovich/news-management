@@ -71,6 +71,7 @@ function loadNewsForEdit() {
                 deleteArticle(event, this);
             });
             editingArticle();
+            warningsBehavior(data);
         },
         error: function(jqXHR, textStatus, errorThrown) {
             alert(jqXHR.status + " Error has occurred");
@@ -119,17 +120,14 @@ function addIdToHref(article, items, id) {
 
 function deleteArticle(event, element){
     var id = element.href.substring(45, element.href.length);
-    if(confirm("Do you want delete an article?")){
+    event.preventDefault();
+    if(confirm($(document).find("#deleteDialog").text())){
         $.ajax({
             type: "DELETE",
-            url: "http://localhost:8080/news-management/api/delete/" + id,
-            success: function (data) {
-                alert(data);
-            }
+            url: "http://localhost:8080/news-management/api/delete/" + id
+        }).done(function(){
+            window.location.replace("http://localhost:8080/news-management");
         });
-        element.href = "http://localhost:8080/news-management";
-    } else {
-        event.preventDefault();
     }
 }
 
@@ -187,6 +185,29 @@ function setErrors(data){
             $(document).find("#description-danger").text(v);
         } else if (k === "text.empty"){
             $(document).find("#text-danger").text(v);
+        }
+    });
+}
+
+function warningsBehavior(data){
+    $(document).find("#backAction").click(function(event){
+        if($(document).find("#inputTitle").val() != data["title"]
+           || $(document).find("#inputShort").val() != data["description"]
+            || $(document).find("#inputLong").val() != data["text"]){
+            if(confirm($(document).find("#warningDialog").text())){
+                window.history.back();
+            }
+        } else {
+            window.history.back();
+        }
+    });
+    $(document).find("#toNewsList").click(function(event){
+        if($(document).find("#inputTitle").val() != data["title"]
+            || $(document).find("#inputShort").val() != data["description"]
+            || $(document).find("#inputLong").val() != data["text"]){
+            if(!confirm($(document).find("#warningDialog").text())){
+                event.preventDefault();
+            }
         }
     });
 }
