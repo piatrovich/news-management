@@ -12,6 +12,8 @@ import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.env.Environment;
 import org.springframework.web.bind.annotation.*;
 
+import javax.ws.rs.Consumes;
+
 /**
  * Provides public API for working with service
  *
@@ -19,6 +21,7 @@ import org.springframework.web.bind.annotation.*;
  */
 @RestController
 @RequestMapping("/api/")
+@Consumes("application/json")
 @PropertySource("classpath:logger.properties")
 public class APIController {
     /** Error logger */
@@ -42,7 +45,7 @@ public class APIController {
      *
      * @return JSON array
      */
-    @RequestMapping(value = "/all", method = RequestMethod.GET, headers = "Accept=application/json")
+    @RequestMapping(value = "/all", method = RequestMethod.GET)
     public Iterable<Article> getArticles() {
         Iterable<Article> articles = null;
         try {
@@ -59,7 +62,7 @@ public class APIController {
      * @param id Unique article id
      * @return Article object
      */
-    @RequestMapping(value = "/get/{id}", method = RequestMethod.GET, headers = "Accept=application/json")
+    @RequestMapping(value = "/get/{id}", method = RequestMethod.GET)
     public Article getArticleForView(@PathVariable Long id){
         Article article = null;
         try {
@@ -75,7 +78,7 @@ public class APIController {
      *
      * @param article Parsed article object from JSON request body
      */
-    @RequestMapping(value = "/add", method = RequestMethod.POST, headers = "Accept=application/json")
+    @RequestMapping(value = "/add", method = RequestMethod.POST)
     public @ResponseBody ValidationResult newArticle(@RequestBody Article article){
         ValidationResult result = validator.validate(article);
         if(result.isStatus()){
@@ -93,7 +96,7 @@ public class APIController {
      *
      * @param article  Parsed article object from JSON request body
      */
-    @RequestMapping(value = "/update", method = RequestMethod.POST, headers = "Accept=application/json")
+    @RequestMapping(value = "/update", method = RequestMethod.POST)
     public @ResponseBody ValidationResult updateArticle(@RequestBody Article article){
         ValidationResult result = validator.validate(article);
         if(result.isStatus()){
@@ -111,7 +114,7 @@ public class APIController {
      *
      * @param id Unique article id
      */
-    @RequestMapping(value = "/delete/{id}", method = RequestMethod.DELETE, headers = "Accept=application/json")
+    @RequestMapping(value = "/delete/{id}", method = RequestMethod.DELETE)
     public void deleteArticle(@PathVariable Long id){
         try {
             newsService.delete(id);
