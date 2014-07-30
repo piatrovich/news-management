@@ -133,16 +133,6 @@ public class ApplicationBeans {
     }
 
     /**
-     * Connection pool bean
-     *
-     * @return Connection pool
-     */
-    @Bean
-    public ConnectionPool connectionPool(){
-        return new ConnectionPool();
-    }
-
-    /**
      * Validator for articles
      *
      * @return Validator object
