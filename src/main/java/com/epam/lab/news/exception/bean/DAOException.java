@@ -5,7 +5,7 @@ package com.epam.lab.news.exception.bean;
  *
  * @author Dzmitry Piatrovich
  */
-public class DAOException extends InfrastructureException {
+public class DAOException extends ServiceException {
 
     /**
      * Constructor

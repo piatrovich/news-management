@@ -1,6 +1,9 @@
 package com.epam.lab.news.exception.handler;
 
 import com.epam.lab.news.exception.bean.ArticleNotFoundException;
+import com.epam.lab.news.exception.bean.ControllerException;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
@@ -14,12 +17,15 @@ public class GlobalExceptionHandler {
 
     /**
      * Handles exceptions if article not found
-     *
-     * @return Page for 404 error
      */
+    @ExceptionHandler(value = ControllerException.class)
+    public ResponseEntity<Object> handleControllerException() {
+        return new ResponseEntity<Object>(HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+
     @ExceptionHandler(value = ArticleNotFoundException.class)
-    public String notFound() {
-        return "error/404";
+    public ResponseEntity<Object> handleArticleNotFound() {
+        return new ResponseEntity<Object>(HttpStatus.NOT_FOUND);
     }
 
 }
