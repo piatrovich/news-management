@@ -45,7 +45,7 @@ public class APIController {
      *
      * @return JSON array
      */
-    @RequestMapping(value = "/all", method = RequestMethod.GET)
+    @RequestMapping(value = "/all")
     public Iterable<Article> getArticles() {
         Iterable<Article> articles = null;
         try {
@@ -62,7 +62,7 @@ public class APIController {
      * @param id Unique article id
      * @return Article object
      */
-    @RequestMapping(value = "/get/{id}", method = RequestMethod.GET)
+    @RequestMapping(value = "/get/{id}")
     public Article getArticleForView(@PathVariable Long id){
         Article article = null;
         try {
@@ -78,7 +78,7 @@ public class APIController {
      *
      * @param article Parsed article object from JSON request body
      */
-    @RequestMapping(value = "/add", method = RequestMethod.POST)
+    @RequestMapping(value = "/add")
     public @ResponseBody ValidationResult newArticle(@RequestBody Article article){
         ValidationResult result = validator.validate(article);
         if(result.isStatus()){
@@ -96,7 +96,7 @@ public class APIController {
      *
      * @param article  Parsed article object from JSON request body
      */
-    @RequestMapping(value = "/update", method = RequestMethod.POST)
+    @RequestMapping(value = "/update")
     public @ResponseBody ValidationResult updateArticle(@RequestBody Article article){
         ValidationResult result = validator.validate(article);
         if(result.isStatus()){
@@ -114,7 +114,7 @@ public class APIController {
      *
      * @param id Unique article id
      */
-    @RequestMapping(value = "/delete/{id}", method = RequestMethod.DELETE)
+    @RequestMapping(value = "/delete/{id}")
     public void deleteArticle(@PathVariable Long id){
         try {
             newsService.delete(id);
