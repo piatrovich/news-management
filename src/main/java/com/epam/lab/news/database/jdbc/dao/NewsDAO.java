@@ -2,6 +2,7 @@ package com.epam.lab.news.database.jdbc.dao;
 
 import com.epam.lab.news.bean.Article;
 import com.epam.lab.news.database.jdbc.dao.constants.NewsConstants;
+import com.epam.lab.news.exception.bean.ArticleNotFoundException;
 import com.epam.lab.news.exception.bean.DAOException;
 import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.context.annotation.Scope;
@@ -35,12 +36,14 @@ public class NewsDAO extends AbstractDAO {
             preparedStatement = connection.prepareStatement(NewsConstants.SQL_GET_NEWS_BY_ID);
             preparedStatement.setLong(1, id);
             resultSet = preparedStatement.executeQuery();
-            while (resultSet.next()){
+            if (resultSet.next()){
                 article.setId(resultSet.getLong(1));
                 article.setTitle(resultSet.getString(2));
                 article.setDescription(resultSet.getString(3));
                 article.setText(resultSet.getString(4));
                 article.setDate(resultSet.getDate(5));
+            } else {
+                throw new ArticleNotFoundException();
             }
         } catch (SQLException e) {
             logger.error(env.getProperty("error.dao.get.article") + id, e);

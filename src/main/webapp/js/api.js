@@ -49,7 +49,7 @@ function loadNewsForView() {
             });
         },
         error: function (jqXHR, textStatus, errorThrown) {
-            alert(jqXHR.status + " Error has occurred");
+            $("#article-title").text(jqXHR.status + " - " + errorThrown);
         },
         dataType: "json"
     });
@@ -74,7 +74,9 @@ function loadNewsForEdit() {
             warningsBehavior(data);
         },
         error: function(jqXHR, textStatus, errorThrown) {
-            alert(jqXHR.status + " Error has occurred");
+            $("#edit-form").css("display", "none");
+            $("#article-block").append("<div class='col-md-9'><h3 id='article-title'></h3></div>");
+            $("#article-title").text(jqXHR.status + " - " + errorThrown);
         },
         dataType: "json"
     });

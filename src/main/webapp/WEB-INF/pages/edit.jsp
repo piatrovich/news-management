@@ -50,7 +50,7 @@
         <!-- Content -->
         <div class="col-md-9">
             <div id="article-block" class="row articles">
-                <form method="post">
+                <form id="edit-form">
                     <div class="form-group">
                         <label for="inputTitle" class="col-md-3 control-label">
                             <spring:message code="page.body.title"/>

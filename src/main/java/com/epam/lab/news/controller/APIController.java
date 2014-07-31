@@ -2,6 +2,7 @@ package com.epam.lab.news.controller;
 
 import com.epam.lab.news.bean.Article;
 import com.epam.lab.news.database.service.INewsService;
+import com.epam.lab.news.exception.bean.ControllerException;
 import com.epam.lab.news.exception.bean.ServiceException;
 import com.epam.lab.news.validation.ArticleValidator;
 import com.epam.lab.news.validation.ValidationResult;
@@ -29,7 +30,7 @@ public class APIController {
 
     /** Service for working with data using repositories */
     @Autowired
-    @Qualifier("daoService")
+    @Qualifier("newsService")
     INewsService newsService;
 
     /** Wiring environment for access to messages */
@@ -69,6 +70,7 @@ public class APIController {
             article = newsService.get(id);
         } catch (ServiceException e) {
             logger.error(environment.getProperty("error.controller.get"), e);
+            throw new ControllerException();
         }
         return article;
     }
