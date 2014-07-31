@@ -8,6 +8,9 @@ package com.epam.lab.news.exception.bean;
  */
 public class ArticleNotFoundException extends RuntimeException {
 
+    /**
+     * Constructor
+     */
     public ArticleNotFoundException() {
         super();
     }

@@ -28,7 +28,7 @@ public class ViewsController {
      *
      * @return view
      */
-    @RequestMapping(value = "/view/{id}", method = RequestMethod.GET)
+    @RequestMapping(value = "/view/**", method = RequestMethod.GET)
     public String showView() {
         return "view";
     }
@@ -48,7 +48,7 @@ public class ViewsController {
      *
      * @return edit
      */
-    @RequestMapping(value = "/edit/{id}", method = RequestMethod.GET)
+    @RequestMapping(value = "/edit/**", method = RequestMethod.GET)
     public String showEdit() {
         return "edit";
     }
