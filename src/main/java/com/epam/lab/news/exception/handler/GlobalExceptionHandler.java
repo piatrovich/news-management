@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
 /**
+ * This class handles runtime exceptions
  *
  * @author Dzmitry Piatrovich
  * @since 0.1.0-alpha
@@ -16,13 +17,20 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 public class GlobalExceptionHandler {
 
     /**
-     * Handles exceptions if article not found
+     * Handles controller exceptions
+     *
+     * @return 500 - Server error
      */
     @ExceptionHandler(value = ControllerException.class)
     public ResponseEntity<Object> handleControllerException() {
         return new ResponseEntity<Object>(HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
+    /**
+     * Handles exception if article not found
+     *
+     * @return 404 - Not found
+     */
     @ExceptionHandler(value = ArticleNotFoundException.class)
     public ResponseEntity<Object> handleArticleNotFound() {
         return new ResponseEntity<Object>(HttpStatus.NOT_FOUND);
