@@ -30,7 +30,7 @@ public class APIController {
 
     /** Service for working with data using repositories */
     @Autowired
-    @Qualifier("newsService")
+    @Qualifier("daoService")
     INewsService newsService;
 
     /** Wiring environment for access to messages */

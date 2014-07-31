@@ -1,4 +1,4 @@
-package com.epam.lab.news.api;
+package com.epam.lab.news.validation;
 
 import com.epam.lab.news.bean.Article;
 import com.epam.lab.news.configuration.ApplicationConfig;
@@ -15,22 +15,19 @@ import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.web.context.WebApplicationContext;
 
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.hamcrest.Matchers.is;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 import static org.springframework.test.web.servlet.setup.MockMvcBuilders.webAppContextSetup;
 
 /**
- * Tests for
- *
- * @author Dzmitry Piatrovich
+ * Tests article validator
  */
 @RunWith(SpringJUnit4ClassRunner.class)
 @WebAppConfiguration
 @ContextConfiguration(classes = {ApplicationConfig.class})
-public class APITest {
-    /** Application context */
+public class ArticleValidatorTest {
+    /** Application context **/
     @Autowired
     protected WebApplicationContext context;
 
@@ -38,7 +35,7 @@ public class APITest {
     @Autowired
     protected APIController apiController;
 
-    /** Entry point */
+    /** Entry point  */
     private MockMvc mockMvc;
 
     /**
@@ -50,30 +47,44 @@ public class APITest {
     }
 
     /**
-     * Checks content type and response code
+     * Testing validator if title missed
      *
      * @throws Exception
      */
     @Test
-    public void testGetAll() throws Exception{
-        mockMvc.perform(get("/api/all"))
+     public void testMissingArticleTitle() throws Exception{
+        Article article = new Article();
+        article.setDescription("description");
+        article.setText("text");
+        ObjectMapper mapper = new ObjectMapper();
+        mockMvc.perform(post("/api/add").content(mapper.writer()
+                .writeValueAsString(article)).contentType(MediaType.APPLICATION_JSON))
                 .andExpect(content().contentType("application/json;charset=UTF-8"))
-                .andExpect(status().isOk());
+                .andExpect(content().encoding("UTF-8"))
+                .andExpect(jsonPath("$.status", is(false)))
+                .andExpect(jsonPath("$.result.['title.empty']", is("Title can not be empty")));
     }
 
     /**
-     * Checks response code if empty request sent
+     * Testing article validator if only title exists
      *
      * @throws Exception
      */
     @Test
-    public void testAddArticle() throws Exception{
+    public void test() throws Exception{
+        Article article = new Article();
+        article.setTitle("title");
         ObjectMapper mapper = new ObjectMapper();
         mockMvc.perform(post("/api/add").content(mapper.writer()
-                .writeValueAsString(new Article())).contentType(MediaType.APPLICATION_JSON))
+                .writeValueAsString(article)).contentType(MediaType.APPLICATION_JSON))
                 .andExpect(content().contentType("application/json;charset=UTF-8"))
                 .andExpect(content().encoding("UTF-8"))
-                .andExpect(status().isOk());
+                .andExpect(jsonPath("$.status", is(false)))
+                .andExpect(jsonPath("$.result.['description.empty']",
+                        is("Description can not be empty")))
+                .andExpect(jsonPath("$.status", is(false)))
+                .andExpect(jsonPath("$.result.['text.empty']",
+                        is("Text can not be empty")));
     }
 
 }
