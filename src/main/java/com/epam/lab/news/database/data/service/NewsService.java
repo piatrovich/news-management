@@ -4,7 +4,6 @@ import com.epam.lab.news.bean.Article;
 import com.epam.lab.news.database.data.bean.Counter;
 import com.epam.lab.news.database.data.repo.CounterRepository;
 import com.epam.lab.news.database.data.repo.NewsRepository;
-import com.epam.lab.news.database.jdbc.dao.constants.NewsConstants;
 import com.epam.lab.news.database.service.INewsService;
 import com.epam.lab.news.database.service.ServiceConstants;
 import com.epam.lab.news.exception.bean.ServiceException;
