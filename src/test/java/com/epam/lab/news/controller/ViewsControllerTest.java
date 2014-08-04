@@ -1,12 +1,12 @@
 package com.epam.lab.news.controller;
 
 import com.epam.lab.news.configuration.ApplicationConfig;
-import org.junit.Before;
+import com.epam.lab.news.util.TestClassListener;
+import com.epam.lab.news.util.TestClassRunner;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.web.context.WebApplicationContext;
@@ -19,22 +19,23 @@ import static org.springframework.test.web.servlet.setup.MockMvcBuilders.webAppC
 /**
  * Test for ViewsController
  */
-@RunWith(SpringJUnit4ClassRunner.class)
+@RunWith(TestClassRunner.class)
 @WebAppConfiguration
 @ContextConfiguration(classes = {ApplicationConfig.class})
-public class ViewsControllerTest {
-
+public class ViewsControllerTest implements TestClassListener {
+    /** Application context */
     @Autowired
     WebApplicationContext context;
 
-    MockMvc mockMvc;
+    /** Entry point */
+    static MockMvc mockMvc;
 
     /**
      * Initializing mock
      */
-    @Before
-    public void init() {
-        this.mockMvc = webAppContextSetup(this.context).build();
+    @Override
+    public void beforeClass() {
+        mockMvc = webAppContextSetup(context).build();
     }
 
     /**
@@ -44,7 +45,7 @@ public class ViewsControllerTest {
      */
     @Test
     public void testIndex() throws Exception{
-        this.mockMvc.perform(get("/"))
+        mockMvc.perform(get("/"))
                 .andExpect(status().isOk())
                 .andExpect(forwardedUrl("/WEB-INF/pages/index.jsp"));
     }
@@ -56,7 +57,7 @@ public class ViewsControllerTest {
      */
     @Test
     public void testShowView() throws Exception{
-        this.mockMvc.perform(get("/view/2345"))
+        mockMvc.perform(get("/view/2345"))
                 .andExpect(status().isOk())
                 .andExpect(forwardedUrl("/WEB-INF/pages/view.jsp"));
     }
@@ -68,7 +69,7 @@ public class ViewsControllerTest {
      */
     @Test
      public void testShowAdd() throws Exception{
-        this.mockMvc.perform(get("/add"))
+        mockMvc.perform(get("/add"))
                 .andExpect(status().isOk())
                 .andExpect(forwardedUrl("/WEB-INF/pages/add.jsp"));
     }
@@ -80,7 +81,7 @@ public class ViewsControllerTest {
      */
     @Test
      public void testShowEdit() throws Exception{
-        this.mockMvc.perform(get("/edit"))
+        mockMvc.perform(get("/edit"))
                 .andExpect(status().isOk())
                 .andExpect(forwardedUrl("/WEB-INF/pages/edit.jsp"));
     }
@@ -92,7 +93,7 @@ public class ViewsControllerTest {
      */
     @Test
     public void testNotFond() throws Exception{
-        this.mockMvc.perform(get("/imaginary_page"))
+        mockMvc.perform(get("/imaginary_page"))
                 .andExpect(status().isNotFound());
     }
 

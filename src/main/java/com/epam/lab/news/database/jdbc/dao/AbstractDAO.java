@@ -40,13 +40,25 @@ public abstract class AbstractDAO {
 
     protected void close(){
         if (statement != null){
-            //statement.close();
+            try {
+                statement.close();
+            } catch (SQLException e) {
+                logger.error(env.getProperty("error.dao.statement.close"), e);
+            }
         }
         if (preparedStatement != null){
-            //preparedStatement.close();
+            try {
+                preparedStatement.close();
+            } catch (SQLException e) {
+                logger.error(env.getProperty("error.dao.prepared.statement.close"), e);
+            }
         }
         if (resultSet != null){
-            //resultSet.close();
+            try {
+                resultSet.close();
+            } catch (SQLException e) {
+                logger.error(env.getProperty("error.dao.result.set.close"), e);
+            }
         }
     }
 
