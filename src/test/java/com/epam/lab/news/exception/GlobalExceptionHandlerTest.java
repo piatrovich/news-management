@@ -2,6 +2,8 @@ package com.epam.lab.news.exception;
 
 import com.epam.lab.news.configuration.ApplicationConfig;
 import com.epam.lab.news.controller.APIController;
+import com.epam.lab.news.util.TestClassListener;
+import com.epam.lab.news.util.TestClassRunner;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -21,10 +23,10 @@ import static org.springframework.test.web.servlet.setup.MockMvcBuilders.webAppC
  *
  * @author Dzmitry Piatrovich
  */
-@RunWith(SpringJUnit4ClassRunner.class)
+@RunWith(TestClassRunner.class)
 @WebAppConfiguration
 @ContextConfiguration(classes = {ApplicationConfig.class})
-public class GlobalExceptionHandlerTest {
+public class GlobalExceptionHandlerTest implements TestClassListener {
     /** Application context */
     @Autowired
     WebApplicationContext context;
@@ -36,11 +38,8 @@ public class GlobalExceptionHandlerTest {
     /** Entry point */
     MockMvc mockMvc;
 
-    /**
-     * Setup
-     */
-    @Before
-    public void init() {
+    @Override
+    public void beforeClass() {
         this.mockMvc = webAppContextSetup(this.context).build();
     }
 

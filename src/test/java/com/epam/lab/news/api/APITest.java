@@ -3,14 +3,14 @@ package com.epam.lab.news.api;
 import com.epam.lab.news.bean.Article;
 import com.epam.lab.news.configuration.ApplicationConfig;
 import com.epam.lab.news.controller.APIController;
+import com.epam.lab.news.util.TestClassListener;
+import com.epam.lab.news.util.TestClassRunner;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.web.context.WebApplicationContext;
@@ -26,10 +26,10 @@ import static org.springframework.test.web.servlet.setup.MockMvcBuilders.webAppC
  *
  * @author Dzmitry Piatrovich
  */
-@RunWith(SpringJUnit4ClassRunner.class)
+@RunWith(TestClassRunner.class)
 @WebAppConfiguration
 @ContextConfiguration(classes = {ApplicationConfig.class})
-public class APITest {
+public class APITest implements TestClassListener {
     /** Application context */
     @Autowired
     protected WebApplicationContext context;
@@ -39,14 +39,11 @@ public class APITest {
     protected APIController apiController;
 
     /** Entry point */
-    private MockMvc mockMvc;
+    private static MockMvc mockMvc;
 
-    /**
-     * Setup
-     */
-    @Before
-    public void init() {
-        this.mockMvc = webAppContextSetup(this.context).build();
+    @Override
+    public void beforeClass() {
+        mockMvc = webAppContextSetup(context).build();
     }
 
     /**
